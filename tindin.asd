@@ -11,5 +11,6 @@
                 :components
                  ((:file "database")
                   (:file "api")
+                  (:file "swipe")
                   (:file "login"))))
   :description "the tindin server")
