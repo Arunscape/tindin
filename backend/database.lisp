@@ -4,7 +4,8 @@
   (:export
    start
    swipe
-   matches))
+   matches
+   get-user-by-email))
 
 (in-package :tindin.database)
 
@@ -29,6 +30,14 @@
   (let* ((qstr "SELECT uid, email, uname, bio FROM users WHERE uid = ?")
          (query (dbi:prepare *connection* qstr))
          (res (dbi:fetch (dbi:execute query id))))
+    ; TODO: add photos
+    (prin1 res)
+    res))
+
+(defun get-user-by-email (email)
+  (let* ((qstr "SELECT uid, email, uname, bio FROM users WHERE email = ?")
+         (query (dbi:prepare *connection* qstr))
+         (res (dbi:fetch (dbi:execute query email))))
     ; TODO: add photos
     (prin1 res)
     res))

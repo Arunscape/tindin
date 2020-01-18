@@ -22,7 +22,7 @@
 (setf (ningle:route *app* "/api/checkemail" :method :POST)
       #'(lambda (params)
           (let ((email (cdr (assoc "email" params :test #'string=))))
-            (prin1 email))))
+            (list (if (db:get-user-by-email email) 204 404) nil))))
 
 (setf (ningle:route *app* "/api/signup" :method :POST)
       #'(lambda (params)
