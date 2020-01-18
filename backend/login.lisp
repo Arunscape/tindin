@@ -31,7 +31,7 @@
   1)
 
 (defun create-user-account (name email bio photos)
-  1)
+  (db:create-user name email bio photos))
 
 (setf (ningle:route *app* "/api/checkemail" :method :POST)
       #'(lambda (params)

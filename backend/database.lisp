@@ -24,7 +24,13 @@
     (loop for photo in photos do
          (dbi:do-sql *connection*
            "INSERT INTO photos (uid, url) VALUES (?, ?)"
-           id photo))))
+           id photo))
+    (list
+     :|uid| id
+     :|name| name
+     :|email| email
+     :|bio| bio
+     :|photos| photos)))
 
 (defun get-user (id)
   (let* ((qstr "SELECT uid, email, uname, bio FROM users WHERE uid = ?")
