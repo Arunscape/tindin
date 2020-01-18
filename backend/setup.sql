@@ -4,7 +4,7 @@ USE tindin;
 
 
 CREATE TABLE IF NOT EXISTS users (
-  uid INT PRIMARY KEY AUTO_INCREMENT,
+  uid INT PRIMARY KEY,
   uname TEXT,
   email TEXT NOT NULL,
   bio TEXT
@@ -33,3 +33,8 @@ CREATE TABLE IF NOT EXISTS swipes (
   FOREIGN KEY (swiper) REFERENCES users(uid) ON DELETE CASCADE,
   FOREIGN KEY (swipee) REFERENCES users(uid) ON DELETE CASCADE
 );
+
+INSERT INTO users (uid, uname, bio, email) VALUES
+  (1, "Jacob", "Coolest", "jacob@reckhard.ca"),
+  (2, "Peter", "Coolish", "pelliott@ualberta.ca"),
+  (3, "Arun", "Cool", "woosaur@ualberta.ca");

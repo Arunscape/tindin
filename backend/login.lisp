@@ -9,13 +9,15 @@
 (defvar *key* (ironclad:ascii-string-to-byte-array "secret"))
 
 
-(defun isvalid (token)
+(defun is-valid (token)
   (let* ((tok (jose:decode :hs256 *key* token))
-         (email (assoc "email" tok)))
+         (email (assoc "email" tok))
+         (id (assoc "id" tok)))
     t))
 
-(defun create-token (email)
-  (jose:encode :hs256 *key* (list (cons "email" email))))
+(defun create-token (id email)
+  (jose:encode :hs256 *key* (list (cons "email" email)
+                                  (cons "id" id))))
 
 (setf (ningle:route *app* "/checkemail" :method :POST)
       #'(lambda (params)
