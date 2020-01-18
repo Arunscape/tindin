@@ -1,4 +1,11 @@
-import React from 'react'
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 
+export default () => {
 
-export default () => <div>MAIN screen</div>
+    const loggedIn = false;
+    return <>
+        {loggedIn ? <div>You're logged in</div> : <Redirect to="/signin" />}
+    </>
+
+}
