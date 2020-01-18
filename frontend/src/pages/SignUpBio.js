@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 export default () => {
     const classes = useStyles();
 
-    const [email, setEmail] = useState(null);
+    const [bio, setBio] = useState(null);
     const history = useHistory();
 
     const { user, setUser } = useGlobalState();
@@ -24,17 +24,17 @@ export default () => {
 
     return (<>
         <form className={classes.root} noValidate autoComplete="on" onSubmit={() => {
-            history.push("/signup-bio");
-            setUser({ ...user, email })
+            history.push("/signup-photos");
+            setUser({ ...user, bio })
         }}>
             <TextField
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
                 id="standard-basic"
-                label="email" />
+                label="bio" />
             <button type="submit">Verify</button>
         </form>
-        <div>{email}</div>
+        <div>{bio}</div>
     </>
     );
 }
