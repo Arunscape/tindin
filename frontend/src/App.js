@@ -12,6 +12,7 @@ const SignInEmail = React.lazy(() => import('./pages/SignInEmail'))
 const SignInVerify = React.lazy(() => import('./pages/SignInVerify'))
 const SignUp = React.lazy(() => import('./pages/SignUp'))
 const SignUpBio = React.lazy(() => import('./pages/SignUpBio'))
+const SignUpPhotos = React.lazy(() => import('./pages/SignUpPhotos'))
 
 
 const App = () => {
@@ -30,10 +31,11 @@ const App = () => {
             <Route path="/signin-verify" exact component={SignInVerify} />
             <Route path="/signup" exact component={SignUp} />
             <Route path="/signup-bio" exact component={SignUpBio} />
+            <Route path="/signup-photos" exact component={SignUpPhotos} />
           </Switch>
         </Router>
       </Suspense >
-      <BottomBar />
+      {loggedIn && <BottomBar />}
     </>)
 }
 
