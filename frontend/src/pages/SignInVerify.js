@@ -16,12 +16,21 @@ const useStyles = makeStyles(theme => ({
 export default () => {
     const classes = useStyles();
 
-    const [valid, setValid] = useState(false);
+    const [valid, setValid] = useState('unknown');
     const { loggedin, setLoggedIn } = useGlobalState();
 
     useEffect(() => {
 
-        setValid(true);
+
+
+        // make post request
+
+        //if response = 4XX
+        setValid('needssignup');
+
+
+        //if response = 2XX
+        setValid('loggedin');
         setLoggedIn(true);
 
     }, [setLoggedIn, setValid])
@@ -30,7 +39,8 @@ export default () => {
         <div className={classes.root}>
             <div>Verifying...</div>
             <LinearProgress />
-            {valid && <Redirect to="/" />}
+            {valid == 'loggedin' && <Redirect to="/" />}
+            {valid == 'needssignup' && <Redirect to="/signup" />}
         </div>
     );
 }

@@ -5,7 +5,8 @@ const GlobalStateContext = createContext();
 const initialState = {
     loggedIn: false,
     user: {
-        email: null
+        email: null,
+        name: null,
     }
 }
 
