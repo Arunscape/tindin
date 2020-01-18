@@ -6,7 +6,7 @@
 (defsystem tindin
   :version "0.0.0"
   :license "AGPL"
-  :depends-on (:ningle)
+  :depends-on (:ningle :cl-dbi)
   :components ((:module "backend"
                 :components
                  ((:file "api"))))
