@@ -1,9 +1,21 @@
 (defpackage :tindin.login
-  (:use :cl :tindin.api)
+  (:use :cl :tindin.api :jose)
   (:export
     #:*app*))
 
 (in-package :tindin.login)
+
+; TODO: Change string to something that can be read from file
+(defvar *key* (ironclad:ascii-string-to-byte-array "secret"))
+
+
+(defun isvalid (token)
+  (let* ((tok (jose:decode :hs256 *key* token))
+         (email (assoc "email" tok)))
+    t))
+
+(defun create-token (email)
+  (jose:encode :hs256 *key* (list (cons "email" email))))
 
 (setf (ningle:route *app* "/api/checkemail" :method :POST)
       #'(lambda (params)
