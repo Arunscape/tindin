@@ -3,7 +3,8 @@
   (:use :cl :cl-dbi)
   (:export
    start
-   swipe))
+   swipe
+   matches))
 
 (in-package :tindin.database)
 
@@ -26,4 +27,7 @@
   (terpri)
   (prin1 theta)
   (terpri)
+  t)
+
+(defun matches (userid)
   t)

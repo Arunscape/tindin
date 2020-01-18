@@ -11,3 +11,9 @@
                   (cdr (assoc "swipee" params :test #'string=))
                   (cdr (assoc "dir" params :test #'string=)))
         "thanks for the swipe"))
+
+(setf (ningle:route *app* "/matches")
+      (lambda (params)
+        ; TODO sort
+        (db:matches "token")
+        "ahhhh"))
