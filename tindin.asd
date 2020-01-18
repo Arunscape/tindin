@@ -9,5 +9,7 @@
   :depends-on (:ningle :cl-dbi)
   :components ((:module "backend"
                 :components
-                 ((:file "api"))))
+                 ((:file "database")
+                  (:file "api")
+                  (:file "login"))))
   :description "the tindin server")
