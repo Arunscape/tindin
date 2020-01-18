@@ -13,11 +13,25 @@
     (dbi:connect :mysql
                  :database-name (read in)
                  :username (read in)
-                 :password (read in)))
-  (defvar *ahh* (read in)))
+                 :password (read in))))
 
-(defun start ()
-  (princ *ahh*))
+(defun create-user (name email bio photos)
+  (let ((id (random 340282366920938463463374607431768211455)))
+    (dbi:do-sql *connection*
+      "INSERT INTO users (id, uname, email, bio) VALUES (?, ?, ?, ?)"
+      id name email bio)
+    (loop for photo in photos do
+         (dbi:do-sql *connection*
+           "INSERT INTO photos (uid, url) VALUES (?, ?)"
+           id photo))))
+
+(defun get-user (id)
+  (let* ((qstr "SELECT uid, email, uname, bio FROM users WHERE uid = ?")
+         (query (dbi:prepare *connection* qstr))
+         (res (dbi:fetch (dbi:execute query id))))
+    ; TODO: add photos
+    (prin1 res)
+    res))
 
 (defun swipe (swiper swipee theta)
   "the swiper swipes in direction theta on swipee"
