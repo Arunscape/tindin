@@ -1,6 +1,7 @@
-DELETE TABLE IF EXISTS users;
-DELETE TABLE IF EXISTS validations;
-DELETE TABLE IF EXISTS swipes;
+DROP DATABASE IF EXISTS tindin;
+CREATE DATABASE tindin;
+USE tindin;
+
 
 CREATE TABLE IF NOT EXISTS users (
   uid INT PRIMARY KEY AUTO_INCREMENT,
@@ -13,15 +14,15 @@ CREATE TABLE IF NOT EXISTS photos (
   uid INT,
   url TEXT,
   direction DECIMAL,
-  PRIMARY KEY (uid, url),
-  FOREIGN KEY uid REFERENCES users(uid)
+  FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS validations (
-  email TEXT,
-  slug TEXT,
+  uid INT,
+  slug VARCHAR(37),
   isUsed TEXT,
-  PRIMARY KEY (email, slug)
+  PRIMARY KEY (uid, slug),
+  FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS swipes (
@@ -29,6 +30,6 @@ CREATE TABLE IF NOT EXISTS swipes (
   swipee INT,
   direction DECIMAL,
   PRIMARY KEY (swiper, swipee),
-  FOREIGN KEY swiper REFERENCES users(uid),
-  FOREIGN KEY swipee REFERENCES users(uid)
+  FOREIGN KEY (swiper) REFERENCES users(uid) ON DELETE CASCADE,
+  FOREIGN KEY (swipee) REFERENCES users(uid) ON DELETE CASCADE
 );
