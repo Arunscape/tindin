@@ -1,9 +1,9 @@
-(defpackage :tindin-database
+(defpackage :tindin.database
   (:use :cl :cl-dbi)
   (:export
     start))
 
-(in-package :tindin-database)
+(in-package :tindin.database)
 
 (let ((in (open ".tindinrc")))
   (defvar *connection*
