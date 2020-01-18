@@ -5,9 +5,30 @@
 
 (in-package :tindin.login)
 
-(setf (ningle:route *app* "/login" :method :POST)
+(setf (ningle:route *app* "/checkemail" :method :POST)
       #'(lambda (params)
-          (if (authorize (cdr (assoc "username" params :test #'string=))
-                         (cdr (assoc "password" params :test #'string=)))
-              "Authorized!"
-              "Failed...Try again.")))
+          (let ((email (cdr (assoc "email" params :test #'string=))))
+            (prin1 email))))
+
+(setf (ningle:route *app* "/signup" :method :POST)
+      #'(lambda (params)
+          (let ((email (cdr (assoc "email" params :test #'string=)))
+                (name (cdr (assoc "name" params :test #'string=)))
+                (bio (cdr (assoc "bio" params :test #'string=)))
+                (photos (cdr (assoc "photos" params :test #'string=))))
+            (prin1 email))))
+
+(setf (ningle:route *app* "/signin" :method :POST)
+      #'(lambda (params)
+          (let ((email (cdr (assoc "email" params :test #'string=))))
+            (prin1 email))))
+
+(setf (ningle:route *app* "/validate/:token" :method :GET)
+      #'(lambda (params)
+          (let ((token (cdr (assoc "token" params :test #'string=))))
+            (prin1 token))))
+
+(setf (ningle:route *app* "/upgrade" :method :POST)
+      #'(lambda (params)
+          (let ((email (cdr (assoc "tok" params :test #'string=))))
+            (prin1 email))))
