@@ -9,8 +9,9 @@
   :depends-on (:ningle :cl-dbi :jose :lack-middleware-static :lack)
   :components ((:module "backend"
                 :components
-                 ((:file "database")
-                  (:file "api")
-                  (:file "swipe")
-                  (:file "login"))))
+                ((:file "lack")
+                 (:file "database")
+                 (:file "api")
+                 (:file "swipe")
+                 (:file "login"))))
   :description "the tindin server")
