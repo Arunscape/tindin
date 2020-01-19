@@ -7,13 +7,18 @@
 
 ; TODO: Change string to something that can be read from file
 (defvar *key* (ironclad:ascii-string-to-byte-array "secret"))
+(defparameter *domain* "localhost:5000")
 
+
+(defun get-from-token (token value)
+  (let ((tok (jose:decode :hs256 *key* token)))
+    (cdr (assoc value tok))))
 
 (defun is-valid (token)
   (let* ((tok (jose:decode :hs256 *key* token))
-         (email (assoc "email" tok))
-         (id (assoc "id" tok)))
-    t))
+         (email (cdr (assoc "email" tok :test #'string=)))
+         (id (cdr (assoc "id" tok :test #'string=))))
+    id))
 
 (defun is-privilaged (token)
   (let* ((tok (jose:decode :hs256 *key* token))
@@ -32,13 +37,27 @@
     (prin1 slug)
     (terpri)
 
-    (db:create-verification-entry email slug)) ; stores link in database
-  3 ; sends link with email
-  "AHHHH") ; return t
+    (db:create-verification-entry email slug) ; stores link in database
+
+    (send:email email "Verify your Email"
+                (concatenate 'string "Click the link to verify your email"
+                             (format nil "~%http://~A/api/validate/~A~%"
+                                     *domain* slug)))
+    (list 200 nil (list (create-token (db:get-userid-by-email email) email nil)))))
 
 
-(defun create-user-account (name email bio photos)
-  (db:create-user name email bio photos))
+(defun upgrade-or-error (tok)
+  (if (and (is-valid tok) (db:has-current-validation (is-valid tok)))
+    (let ((email (get-from-token tok "email"))
+          (id (get-from-token tok "id")))
+      (prin1 "AAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHH")
+      (terpri)
+      (prin1 tok)
+      (terpri)
+      (let ((t2 (create-token id email t)))
+        (prin1 t2)
+        (terpri)
+        (list 200 nil (list t2))))))
 
 (setf (ningle:route *app* "/api/checkemail" :method :POST)
       #'(lambda (params)
@@ -51,7 +70,7 @@
                 (name (cdr (assoc "name" params :test #'string=)))
                 (bio (cdr (assoc "bio" params :test #'string=)))
                 (photos (cdr (assoc "photos" params :test #'string=))))
-            (create-user-account name email bio photos)
+            (db:create-user name email bio photos)
             (verify-email-process email))))
 
 (setf (ningle:route *app* "/api/signin" :method :POST)
@@ -61,10 +80,13 @@
 
 (setf (ningle:route *app* "/api/validate/:token" :method :GET)
       #'(lambda (params)
-          (let ((token (cdr (assoc "token" params :test #'string=))))
-            (db:validate token))))
+          (let ((token (cdr (assoc :token params))))
+            (format t "~A~%" token)
+            (if (db:validate token)
+                '(200 nil ("Success!"))
+                '(400 nil ("You Fool!"))))))
 
 (setf (ningle:route *app* "/api/upgrade" :method :POST)
       #'(lambda (params)
-          (let ((email (cdr (assoc "tok" params :test #'string=))))
-            (prin1 email))))
+          (let ((tok (cdr (assoc "tok" params :test #'string=))))
+            (upgrade-or-error tok))))

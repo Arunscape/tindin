@@ -1,11 +1,8 @@
 (defpackage :tindin.email
-  (:nicknames :mail)
+  (:nicknames :send)
   (:use :cl :cl-dbi :cl-smtp :cl+ssl)
   (:export
-   start
-   swipe
-   matches
-   get-user-by-email))
+   email))
 
 (in-package :tindin.email)
 

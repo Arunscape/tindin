@@ -6,11 +6,12 @@
 (defsystem tindin
   :version "0.0.0"
   :license "AGPL"
-  :depends-on (:ningle :cl-dbi :jose :lack-middleware-static :lack)
+  :depends-on (:ningle :cl-dbi :jose :lack-middleware-static :lack :cl-smtp :cl+ssl)
   :components ((:module "backend"
                 :components
                 ((:file "utils")
                  (:file "lack")
+                 (:file "email")
                  (:file "database")
                  (:file "api")
                  (:file "swipe")

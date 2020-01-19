@@ -8,6 +8,7 @@
    get-userid-by-email
    create-user
    create-verification-entry
+   has-current-validation
    validate))
 
 (in-package :tindin.database)
@@ -19,6 +20,12 @@
                  :username (read in)
                  :password (read in))))
 
+(defun has-current-validation (id)
+  (let* ((qstr "SELECT * FROM validations WHERE timeout > NOW() AND uid = 1")
+         (query (dbi:prepare *connection* qstr))
+         (res (dbi:fetch (dbi:execute query id))))
+    res))
+
 (defun create-verification-entry (email slug)
   (let ((uid (get-userid-by-email email)))
     (dbi:do-sql *connection*
@@ -29,7 +36,8 @@
 (defun validate (slug)
   (let* ((qstr "SELECT slug FROM validations WHERE slug = ?")
          (query (dbi:prepare *connection* qstr))
-         (res (dbi:fetch (dbi:execute query id))))
+         (res (dbi:fetch (dbi:execute query slug))))
+    (format t "~A~%" res)
     (when res
       (dbi:do-sql *connection*
         "UPDATE validations SET isUsed = 1 WHERE slug = ?" slug))
