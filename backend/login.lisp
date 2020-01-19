@@ -23,6 +23,8 @@
            (isfull (cdr (assoc "isfull" tok :test #'string=))))
         (values id email isfull))
     (jose/errors:jws-verification-error ()
+      nil)
+    (jose/errors:jws-invalid-format ()
       nil)))
 
 (defun is-priviliged (token)
