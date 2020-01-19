@@ -15,14 +15,22 @@
 
 (defun cors (app)
   (lambda (env)
-    (let ((r (funcall app env)))
-      (setf (cadr r) (append '(:access-control-allow-methods
-                               "GET, POST, PUT, DELETE, OPTIONS, HEAD"
-                               :access-control-allow-origin "*"
-                               :access-control-allow-headers
-                               "Origin, X-Requested-With, Content-Type, Accept")
-                             (cadr r)))
-      r)))
+    (if (equal (getf env :REQUEST-METHOD) :OPTIONS)
+        '(204
+          (:access-control-allow-methods
+           "GET, POST, PUT, DELETE, OPTIONS, HEAD"
+           :access-control-allow-origin "*"
+           :access-control-allow-headers
+           "Origin, X-Requested-With, Content-Type, Accept")
+          ())
+        (let ((r (funcall app env)))
+          (setf (cadr r) (append '(:access-control-allow-methods
+                                   "GET, POST, PUT, DELETE, OPTIONS, HEAD"
+                                   :access-control-allow-origin "*"
+                                   :access-control-allow-headers
+                                   "Origin, X-Requested-With, Content-Type, Accept")
+                                 (cadr r)))
+          r))))
 
 (defvar *static-app*
   (lack:builder
