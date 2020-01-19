@@ -60,7 +60,10 @@
       (let ((email (get-from-token tok "email"))
             (id (get-from-token tok "id")))
         (let ((t2 (create-token id email t)))
-          (list 200 nil (list t2))))
+          `(200
+            (:content-type "application/json")
+            (,(json:encode-json-to-string
+               t2)))))
       '(400 nil)))
 
 (setf (ningle:route *app* "/api/checkemail" :method :POST)
