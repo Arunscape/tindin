@@ -5,6 +5,22 @@
 
 (in-package :tindin.swipe)
 
+(setf (ningle:route *app* "/api/next-profile")
+      (lambda (params)
+        (declare (ignore params))
+        (let ((uid (tindin.login:user-info)))
+          (if uid
+              `(200
+                (:content-type "application/json")
+                (,(json:encode-json-to-string
+                   (let ((id (or (db:swiped-on-you uid)
+                                 (db:unswiped uid))))
+                     (if id
+                         `(("id" . ,id))
+                         nil)))))
+
+            '(403 () ("oi! log in ya bastard!"))))))
+
 (setf (ningle:route *app* "/api/swipe" :method :POST)
       (lambda (params)
         (let ((uid (tindin.login:user-info)))

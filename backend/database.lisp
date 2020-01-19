@@ -9,7 +9,9 @@
    create-user
    create-verification-entry
    has-current-validation
-   validate))
+   validate
+   swiped-on-you
+   unswiped))
 
 (in-package :tindin.database)
 
@@ -92,3 +94,17 @@
        collect `(("swiper" . ,(getf row :|swiper|))
                  ("them" . ,(getf row :|d1|))
                  ("you" . ,(getf row :|d2|))))))
+
+(defun swiped-on-you (uid)
+  (let* ((qstr "SELECT swiper FROM swipes WHERE swipee=? and swiper not in
+                (SELECT swipee FROM swipes WHERE swiper=?)")
+         (query (dbi:prepare *connection* qstr))
+         (res (dbi:fetch (dbi:execute query uid uid))))
+    (if res (getf res :|swiper|) nil)))
+
+(defun unswiped (uid)
+  (let* ((qstr "SELECT uid FROM users WHERE uid != ? and uid not in
+                (SELECT swipee FROM swipes WHERE swiper=?)")
+         (query (dbi:prepare *connection* qstr))
+         (res (dbi:fetch (dbi:execute query uid uid))))
+    (if res (getf res :|uid|) nil)))
