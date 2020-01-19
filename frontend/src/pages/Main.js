@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import useGlobalState from '../useGlobalState';
 
@@ -9,13 +9,15 @@ const SwipeArea = styled.div`
     height: 100%;
     `;
 
-export default () => {
+const Main = () => {
 
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
 
+    const [angle, setAngle] = useState(null);
+
     const handleTouchStart = (e) => {
-        console.log(e)
+        // console.log(e)
         e.preventDefault();
         const x = e.touches[0].screenX;
         const y = e.touches[0].screenY;
@@ -23,20 +25,34 @@ export default () => {
             x,
             y,
         });
+        console.log("TOUCHSTART: ", x, y);
+        if (touchStart == null) {
+            console.log("WHY THE FUCK IS IT NULL?")
+        }
     }
     const handleTouchEnd = (e) => {
-        console.log(e)
+        // console.log(e)
         e.preventDefault();
         const x = e.changedTouches[0].screenX;
         const y = e.changedTouches[0].screenY;
         setTouchEnd({
             x,
             y,
-            diffX: touchStart ? touchStart.x - x : null,
-            diffY: touchStart ? touchStart.y - y : null,
-            angle: touchStart ? Math.atan2(touchStart.y - y, touchStart.x - x) : null,
         });
+        console.log("TOUCHEND: ", JSON.stringify(touchEnd));
     }
+
+    useEffect(() => {
+
+        if (touchStart == null || touchEnd == null) {
+            return;
+        }
+
+        const toDegrees = (x) => (x > 0 ? x : (2 * Math.PI + x)) * 360 / (2 * Math.PI)
+        setAngle(toDegrees(-Math.atan2(touchEnd.y - touchStart.y, touchEnd.x - touchStart.x)));
+
+        console.log("ANGLE: " + angle)
+    }, [touchStart, touchEnd])
 
     useEffect(() => {
         window.addEventListener('touchstart', handleTouchStart);
@@ -59,6 +75,10 @@ export default () => {
         <div>{JSON.stringify(touchStart)}</div>
         <div>Touchend</div>
         <div>{JSON.stringify(touchEnd)}</div>
+        <div>Angle</div>
+        <div>{angle}</div>
     </SwipeArea>
 
 }
+
+export default Main;
