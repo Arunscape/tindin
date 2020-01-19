@@ -1,0 +1,83 @@
+html{
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+a{
+    text-decoration: None;
+}
+
+.hor{
+    display: flex;
+    flex-direction: row;
+}
+.ver{
+    display: flex;
+    flex-direction: column;
+}
+.spread{
+    justify-content: space-between;
+    align-items: center;
+}
+.drift{
+    justify-content: space-evenly;
+    align-items: center;
+}
+.cent{
+    justify-content: space-around;
+    align-items: center;
+}
+.wide{
+    width: 100%;
+}
+.tall{
+    height: 100%;
+}
+.marg{
+    margin: 10%;
+}
+.marg-x{
+    margin: 0 10%;
+}
+.marg-y{
+    margin: 10% 0;
+}
+.pad{
+    padding: 10%;
+}
+.pad-x{
+    padding: 0 10%;
+}
+.pad-y{
+    padding: 10% 0;
+}
+.card{
+    border-radius: 3px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.4);
+    transition: 0.3s;
+}
+.card:hover{
+    box-shadow: 0 16px 32px 0 rgba(0,0,0,0.4);
+}
+
+
+.chat-header {
+    text-align: center;
+    width: 100%;
+}
+
+.chatstrip {
+    margin: 10px 5vw;
+    width: 90vw;
+}
+.chatstrip .img {
+    width: 20%;
+}
+.chatstrip .items {
+    width: 80%;
+}
