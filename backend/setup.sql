@@ -18,10 +18,11 @@ CREATE TABLE IF NOT EXISTS photos (
 );
 
 CREATE TABLE IF NOT EXISTS validations (
+  slug INT,
   uid INT,
-  slug VARCHAR(37),
-  isUsed TEXT,
-  PRIMARY KEY (uid, slug),
+  timeout INT,
+  isUsed BOOLEAN,
+  PRIMARY KEY (slug),
   FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE
 );
 

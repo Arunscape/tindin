@@ -28,7 +28,14 @@
                                   (cons "isfull" isfull))))
 
 (defun verify-email-process (email)
-  1)
+  (let ((slug (utils:make-id)))
+    (prin1 slug)
+    (terpri)
+
+    (db:create-verification-entry email slug)) ; stores link in database
+  3 ; sends link with email
+  "AHHHH") ; return t
+
 
 (defun create-user-account (name email bio photos)
   (db:create-user name email bio photos))
@@ -36,7 +43,7 @@
 (setf (ningle:route *app* "/api/checkemail" :method :POST)
       #'(lambda (params)
           (let ((email (cdr (assoc "email" params :test #'string=))))
-            (list (if (db:get-user-by-email email) 204 404) nil))))
+            (list (if (db:get-userid-by-email email) 204 404) nil))))
 
 (setf (ningle:route *app* "/api/signup" :method :POST)
       #'(lambda (params)
@@ -55,7 +62,7 @@
 (setf (ningle:route *app* "/api/validate/:token" :method :GET)
       #'(lambda (params)
           (let ((token (cdr (assoc "token" params :test #'string=))))
-            (prin1 token))))
+            (db:validate token))))
 
 (setf (ningle:route *app* "/api/upgrade" :method :POST)
       #'(lambda (params)

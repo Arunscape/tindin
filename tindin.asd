@@ -9,7 +9,8 @@
   :depends-on (:ningle :cl-dbi :jose :lack-middleware-static :lack)
   :components ((:module "backend"
                 :components
-                ((:file "lack")
+                ((:file "utils")
+                 (:file "lack")
                  (:file "database")
                  (:file "api")
                  (:file "swipe")
