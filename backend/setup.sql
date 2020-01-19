@@ -50,5 +50,5 @@ INSERT INTO users (uid, uname, bio, email) VALUES
 INSERT INTO photos (uid, url) VALUES
   (1, "https://discoverystocks.com/wp-content/uploads/2017/11/ALRT-iStock-610041376-640x427.jpg"),
   (2, "https://i.pinimg.com/originals/33/e6/b5/33e6b5d7a53ce82292132ba5ebb1135e.jpg"),
-  (3, "https://insiderfinancial.com/wp-content/uploads/2017/06/509362558_3c7ab48528_o.jpg"),
+  (3, "https://i.kym-cdn.com/photos/images/original/001/258/245/48f.png"),
   (4, "https://pbs.twimg.com/profile_images/544394403/A-1024__Custom__400x400.jpg");
