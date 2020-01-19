@@ -30,6 +30,9 @@ export default () => {
             {
                 method: 'post',
                 body: JSON.stringify({ email }),
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
             }).catch(e => {
                 console.log("HELLO" + e);
@@ -46,15 +49,15 @@ export default () => {
             // console.log("REEEEEE: " + res.status);status
 
             if (res.status === 404) {
-                // history.push('/signup')
+                history.push('/signup')
                 console.log("I got 404")
             }
 
             if (res.status === 204) {
-                // history.push('/signin-verify')
+                setUser({ ...user, email })
+                history.push('/signin-verify')
                 console.log("I got 204")
             }
-            setUser({ ...user, email })
         }}>
             <TextField
                 // value={email}
