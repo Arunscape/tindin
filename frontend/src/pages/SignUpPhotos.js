@@ -1,10 +1,7 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import useGlobalState from '../useGlobalState';
+import styled from 'styled-components';
 
 const Text = styled.input`
 border: none;
@@ -15,7 +12,6 @@ border-bottom: 0.2rem solid white;
 `;
 
 export default function UploadButtons() {
-    const classes = useStyles();
     const history = useHistory();
 
     const { setLoggedIn } = useGlobalState();
