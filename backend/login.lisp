@@ -50,8 +50,10 @@
                 (concatenate 'string "Click the link to verify your email"
                              (format nil "~%http://~A/api/validate/~A~%"
                                      *domain* slug)))
-    (list 200 nil (list (create-token (db:get-userid-by-email email) email nil)))))
-
+    `(200
+      (:content-type "application/json")
+      (,(json:encode-json-to-string
+         (create-token (db:get-userid-by-email email) email nil))))))
 
 (defun upgrade-or-error (tok)
   (if (and (is-valid tok) (db:has-current-validation (is-valid tok)))
