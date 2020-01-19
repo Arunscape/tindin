@@ -51,7 +51,7 @@
 (defun create-user (name email bio photos)
   (let ((id (utils:make-id)))
     (dbi:do-sql *connection*
-      "INSERT INTO users (id, uname, email, bio) VALUES (?, ?, ?, ?)"
+      "INSERT INTO users (uid, uname, email, bio) VALUES (?, ?, ?, ?)"
       id name email bio)
     (loop for photo in photos do
          (dbi:do-sql *connection*
