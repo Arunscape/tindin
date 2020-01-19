@@ -5,39 +5,69 @@ import styled from 'styled-components';
 
 const Text = styled.input`
 border: none;
-font: bold italic 7vw Open Sans;
-background-color: #FFFFFFFF00;
+background-color: #FFFFFF00;
 color: white;
+font: bold 5vw Open Sans;
 border-bottom: 0.2rem solid white;
+width: 80%;
+
 `;
+
+const YEET = styled.div`
+height: 100vh;
+width: 100vw;
+background-image: linear-gradient(#EE357B, #2768B3);
+align-items: center;
+justify-content: center;
+display: flex;
+`;
+
+const Button = styled.button`
+background-color: white;
+:active{
+background-color: #A0C9F2;
+}
+color: #2768B3;
+padding: 1rem;
+text-align: center;
+display: inline-block;
+font: bold 4vw Open Sans;
+font-size: 4vw;
+border-radius: 0.5rem;
+margin: 2rem;`
+
 
 export default function UploadButtons() {
     const history = useHistory();
 
     const { setLoggedIn } = useGlobalState();
 
-    const [images, setImages] = useState(["", "", "", "", ""]);
+    window.images = ["", "", "", "", ""];
 
     return (
-        <div>
+        <YEET>
 
-            <Text onChange={(e) => setImages(i => i[0] = e.target.value)} />
-            <Text onChange={(e) => setImages(i => i[1] = e.target.value)} />
-            <Text onChange={(e) => setImages(i => i[2] = e.target.value)} />
-            <Text onChange={(e) => setImages(i => i[3] = e.target.value)} />
-            <Text onChange={(e) => setImages(i => i[4] = e.target.value)} />
+            <div>
+
+                <Text onChange={(e) => window.images[0] = e.target.value} />
+                <Text onChange={(e) => window.images[1] = e.target.value} />
+                <Text onChange={(e) => window.images[2] = e.target.value} />
+                <Text onChange={(e) => window.images[3] = e.target.value} />
+                <Text onChange={(e) => window.images[4] = e.target.value} />
 
 
+            </div>
 
-            <button onClick={() => {
+
+            <Button onClick={() => {
 
                 window.isForSignup = true;
-                window.images = images;
+                // window.images = images;
 
                 history.push("/signin-verify");
                 setLoggedIn(true);
 
-            }}>Next</button>
-        </div>
+            }}>Next</Button>
+        </YEET>
     );
 }
