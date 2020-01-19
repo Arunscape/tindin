@@ -7,10 +7,15 @@
 
 (setf (ningle:route *app* "/api/swipe" :method :POST)
       (lambda (params)
-        (db:swipe (cdr (assoc "swiper" params :test #'string=))
-                  (cdr (assoc "swipee" params :test #'string=))
-                  (cdr (assoc "dir" params :test #'string=)))
-        "thanks for the swipe mate"))
+        (let ((uid (tindin.login:user-info)))
+          (if uid
+              (progn
+                (db:swipe uid
+                          (cdr (assoc "swipee" params :test #'string=))
+                          (cdr (assoc "dir" params :test #'string=)))
+                "thanks for the swipe mate")
+            '(403 () ("faaaaaack off m8"))))))
+
 
 (defun deg->rad (x) (* x (/ pi 180)))
 
