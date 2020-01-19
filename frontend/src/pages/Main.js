@@ -20,6 +20,7 @@ const useStyles = makeStyles({
         display: 'flex',
         flexFlow: 'column nowrap',
         justifyContent: 'center',
+        width: '80vw',
 
     },
     media: {
@@ -148,23 +149,9 @@ const Main = () => {
         const toDegrees = (x) => (x > 0 ? x : (2 * Math.PI + x)) * 360 / (2 * Math.PI)
         setAngle(toDegrees(-Math.atan2(touchEnd.y - touchStart.y, touchEnd.x - touchStart.x)));
 
-<<<<<<< HEAD
-        fetch(CONFIG.API + '/swipe',
-            {
-                method: 'post',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": user.tok,
-                },
-                body: JSON.stringify({
-                    swipee: swipee.id,
-                    dir: angle + "",
-                })
-=======
-    console.log("ANGLE: " + angle)
->>>>>>> 73ca666f1e4365e7ce364a16d3353d7ba16ca139
+        console.log("ANGLE: " + angle)
 
-    if(swipee == null || angle == null) {
+        if (swipee == null || angle == null) {
             return;
         }
 
