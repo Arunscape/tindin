@@ -82,4 +82,13 @@
   t)
 
 (defun matches (userid)
-  t)
+  (let* ((qstr "SELECT DISTINCT s1.swiper, s1.direction as d1,
+               s2.direction as d2 FROM
+               swipes s1, swipes s2 WHERE s2.swiper=? AND s2.swipee=s1.swiper
+               AND s1.swipee=?")
+         (query (dbi:execute (dbi:prepare *connection* qstr) userid userid)))
+    (loop for row = (dbi:fetch query)
+       while row
+       collect `(("swiper" . ,(getf row :|swiper|))
+                 ("them" . ,(getf row :|d1|))
+                 ("you" . ,(getf row :|d2|))))))

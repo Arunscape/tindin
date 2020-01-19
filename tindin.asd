@@ -12,7 +12,8 @@
                :lack-middleware-static
                :lack
                :cl-smtp
-               :cl+ssl)
+               :cl+ssl
+               :cl-json)
   :components ((:module "backend"
                         :components
                         ((:file "utils")
