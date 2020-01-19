@@ -19,7 +19,7 @@ const Profile = React.lazy(() => import('./pages/Profile'))
 
 const App = () => {
 
-  const { loggedIn } = useGlobalState();
+  const { user } = useGlobalState();
 
   return (
     <>
@@ -37,7 +37,7 @@ const App = () => {
             <Route path="/chat" exact component={Chat} />
             <Route path="/profile" exact component={Profile} />
           </Switch>
-          {loggedIn && <BottomBar />}
+          {user.tok && <BottomBar />}
         </Router>
       </Suspense >
     </>)
