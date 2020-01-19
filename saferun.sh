@@ -1,6 +1,6 @@
 while true
 do
     bash runbackend.lisp &
-    sleep 5
+    sleep 300
     kill $!
 done
