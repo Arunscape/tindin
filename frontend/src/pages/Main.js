@@ -20,7 +20,10 @@ const useStyles = makeStyles({
         display: 'flex',
         flexFlow: 'column nowrap',
         justifyContent: 'center',
-        width: '80vw',
+        maxWidth: '80%',
+        // minHeight: '60%'
+        minWidth: '60%',
+        minHeight: '20%',
 
     },
     media: {
@@ -41,11 +44,11 @@ background-image: linear-gradient(#EE357B, #2768B3);
 `;
 
 const Name = styled.div`
-    font: bold 7vw Open Sans;
+    font: bold 5vw Open Sans;
     `;
 
 const Description = styled.div`
-    font:  5vw Open Sans;
+    font:  2.5vw Open Sans;
     `;
 
 const Main = () => {
@@ -131,6 +134,7 @@ const Main = () => {
             y,
         });
         console.log("TOUCHEND: ", JSON.stringify(touchEnd));
+        window.location.reload();
 
 
 
