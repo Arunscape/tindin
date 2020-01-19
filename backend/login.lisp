@@ -55,10 +55,11 @@
 
 (defun upgrade-or-error (tok)
   (if (and (is-valid tok) (db:has-current-validation (is-valid tok)))
-    (let ((email (get-from-token tok "email"))
-          (id (get-from-token tok "id")))
-      (let ((t2 (create-token id email t)))
-        (list 200 nil (list t2))))))
+      (let ((email (get-from-token tok "email"))
+            (id (get-from-token tok "id")))
+        (let ((t2 (create-token id email t)))
+          (list 200 nil (list t2))))
+      '(400 nil)))
 
 (setf (ningle:route *app* "/api/checkemail" :method :POST)
       #'(lambda (params)
