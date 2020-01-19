@@ -31,6 +31,7 @@ const useStyles = makeStyles(theme => ({
     appBar: {
         top: 'auto',
         bottom: 0,
+        backgroundColor: '#EE357B',
     },
     grow: {
         flexGrow: 1,

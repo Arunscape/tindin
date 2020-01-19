@@ -22,6 +22,8 @@ export default function UploadButtons() {
     const history = useHistory();
 
     const { setLoggedIn } = useGlobalState();
+    const { user, setUser } = useGlobalState();
+    const { bio, setBio } = useGlobalState();
 
     return (
         <div className={classes.root}>
@@ -66,10 +68,13 @@ export default function UploadButtons() {
                 </IconButton>
             </label>
             <button onClick={() => {
-                history.push("/");
-                setLoggedIn(true);
 
-            }}>NExt</button>
+              window.isForSignup = true;
+
+              history.push("/signin-verify");
+              setLoggedIn(true);
+
+            }}>Next</button>
         </div>
     );
 }

@@ -53,17 +53,13 @@ export default () => {
 
     const [name, setName] = useState(null);
     const history = useHistory();
-
-    const { user, setUser } = useGlobalState();
-
-
     return (
         <Background>
             <Image src={Heart} />
             <Enter>Enter your name</Enter>
             <Form noValidate autoComplete="on" onSubmit={() => {
                 history.push("/signup-bio");
-                setUser({ ...user, name })
+                window.name = name
             }}>
                 <Text
                     onChange={(e) => setName(e.target.value)}
