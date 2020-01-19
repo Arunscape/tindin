@@ -209,14 +209,6 @@ const Main = () => {
   return <>
                             {user.tok && (
                               <SwipeArea>
-                                {/* <div>Hello</div>
-                                   <div>Touchstart</div>
-                                   <div>{JSON.stringify(touchStart)}</div>
-                                   <div>Touchend</div>
-                                   <div>{JSON.stringify(touchEnd)}</div>
-                                   <div>Angle</div>
-                                   <div>{angle}</div>
-                                   <div>{user.tok}</div> */}
                                 <Card className={classes.card}>
                                   <CardActionArea>
                                     <CardMedia
