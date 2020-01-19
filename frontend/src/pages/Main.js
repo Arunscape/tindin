@@ -221,7 +221,7 @@ const Main = () => {
                                   <CardActionArea>
                                     <CardMedia
                                       className={classes.media}
-                                      image="/static/images/cards/contemplative-reptile.jpg"
+                                      image={swipee && swipee.photos[0]}
                                       title="Contemplative Reptile"
                                     />
                                     <CardContent>
