@@ -90,7 +90,7 @@ export default () => {
                     onChange={(e) => window.bio = e.target.value}
                     id="standard-basic"
                     label="Bio"
-                    maxlength="600"
+                    maxlength="300"
                     required
             />
             <Button type="submit">Verify</Button>
