@@ -7,6 +7,7 @@ const initialState = {
     user: {
         email: null,
         name: null,
+        tok: null
     }
 }
 
