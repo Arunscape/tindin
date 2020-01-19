@@ -15,5 +15,9 @@
 (setf (ningle:route *app* "/api/matches")
       (lambda (params)
         ; TODO sort
-        (db:matches "token")
-        "ahhhh"))
+        (let ((uid (tindin.login:user-info)))
+          (if uid
+              (progn
+                (db:matches "token")
+                "ahhhh")
+              '(403 () ("you dont have perms and combs"))))))
