@@ -6,73 +6,40 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { useHistory } from 'react-router';
 import useGlobalState from '../useGlobalState';
 
-const useStyles = makeStyles(theme => ({
-    root: {
-        '& > *': {
-            margin: theme.spacing(1),
-        },
-    },
-    input: {
-        display: 'none',
-    },
-}));
+const Text = styled.input`
+border: none;
+font: bold italic 7vw Open Sans;
+background-color: #FFFFFFFF00;
+color: white;
+border-bottom: 0.2rem solid white;
+`;
 
 export default function UploadButtons() {
     const classes = useStyles();
     const history = useHistory();
 
     const { setLoggedIn } = useGlobalState();
-    const { user, setUser } = useGlobalState();
-    const { bio, setBio } = useGlobalState();
+
+    const [images, setImages] = useState(["", "", "", "", ""]);
 
     return (
-        <div className={classes.root}>
-            <input
-                accept="image/*"
-                className={classes.input}
-                id="contained-button-file"
-                multiple
-                type="file"
-            />
-            <label htmlFor="contained-button-file">
-                <Button variant="contained" color="primary" component="span">
-                    Upload
-        </Button>
-            </label>
-            <input
-                accept="image/*"
-                className={classes.input}
-                id="text-button-file"
-                multiple
-                type="file"
-            />
-            <label htmlFor="text-button-file">
-                <Button component="span">Upload</Button>
-            </label>
-            <input
-                accept="image/*"
-                className={classes.input}
-                id="outlined-button-file"
-                multiple
-                type="file"
-            />
-            <label htmlFor="outlined-button-file">
-                <Button variant="outlined" component="span">
-                    Upload
-        </Button>
-            </label>
-            <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
-            <label htmlFor="icon-button-file">
-                <IconButton color="primary" aria-label="upload picture" component="span">
-                    <PhotoCamera />
-                </IconButton>
-            </label>
+        <div>
+
+            <Text onChange={(e) => setImages(i => i[0] = e.target.value)} />
+            <Text onChange={(e) => setImages(i => i[1] = e.target.value)} />
+            <Text onChange={(e) => setImages(i => i[2] = e.target.value)} />
+            <Text onChange={(e) => setImages(i => i[3] = e.target.value)} />
+            <Text onChange={(e) => setImages(i => i[4] = e.target.value)} />
+
+
+
             <button onClick={() => {
 
-              window.isForSignup = true;
+                window.isForSignup = true;
+                window.images = images;
 
-              history.push("/signin-verify");
-              setLoggedIn(true);
+                history.push("/signin-verify");
+                setLoggedIn(true);
 
             }}>Next</button>
         </div>
