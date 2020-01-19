@@ -19,22 +19,22 @@
   (handler-case
     (let* ((tok (jose:decode :hs256 *key* token))
            (email (cdr (assoc "email" tok :test #'string=)))
-           (id (cdr (assoc "id" tok :test #'string=))))
-        (values id email))
+           (id (cdr (assoc "id" tok :test #'string=)))
+           (isfull (cdr (assoc "isfull" tok :test #'string=))))
+        (values id email isfull))
     (jose/errors:jws-verification-error ()
       nil)))
 
-(defun is-privilaged (token)
-  (let* ((tok (jose:decode :hs256 *key* token))
-         (email (assoc "email" tok))
-         (id (assoc "id" tok))
-         (isfull (assoc "isfull" tok)))
-    isfull))
+(defun is-priviliged (token)
+  (multiple-value-bind (id email isfull) (is-valid token)
+    (if isfull
+        (values id email isfull)
+        nil)))
 
 (defun user-info ()
   (let ((tok (gethash "authorization"
                       (lack.request:request-headers ningle:*request*))))
-    (is-valid tok)))
+    (is-priviliged tok)))
 
 (defun create-token (id email isfull)
   (jose:encode :hs256 *key* (list (cons "email" email)
@@ -43,8 +43,6 @@
 
 (defun verify-email-process (email)
   (let ((slug (utils:make-id)))
-    (prin1 slug)
-    (terpri)
 
     (db:create-verification-entry email slug) ; stores link in database
 
@@ -59,11 +57,7 @@
   (if (and (is-valid tok) (db:has-current-validation (is-valid tok)))
     (let ((email (get-from-token tok "email"))
           (id (get-from-token tok "id")))
-      (prin1 tok)
-      (terpri)
       (let ((t2 (create-token id email t)))
-        (prin1 t2)
-        (terpri)
         (list 200 nil (list t2))))))
 
 (setf (ningle:route *app* "/api/checkemail" :method :POST)

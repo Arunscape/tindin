@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import styled from 'styled-components'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Tindinlogo from '../assets/tindinlogo.svg'
+import axios from 'axios';
 
 const Centering = styled.div`
 margin: 2rem;
@@ -59,6 +60,5 @@ export default () => {
         </Centering>
         </Whitebox>
     </Background>
-
 }
 
