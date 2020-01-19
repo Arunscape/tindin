@@ -59,6 +59,7 @@ export default () => {
 
     const checkemail = async () => {
         console.log(email)
+        window.email = email
         return fetch(CONFIG.API + '/checkemail',
             {
                 method: 'post',
@@ -66,12 +67,7 @@ export default () => {
                 headers: {
                     "Content-Type": "application/json"
                 },
-
-            }).catch(e => {
-                console.log("HELLO" + e);
-
             })
-
     }
 
 
@@ -79,20 +75,22 @@ export default () => {
         <Background>
         <Image src={Heart} />
         <Title>Enter your email</Title>
-        <Form noValidate autoComplete="on" action="javascript:void(0);" onSubmit={async () => {
+          <Form noValidate autoComplete="on" action="javascript:void(0);" onSubmit={async () => {
             // history.push("/signup-bio");
             const res = await checkemail();
             // console.log("REEEEEE: " + res.status);status
 
-            if (res.status === 404) {
+            if (res) {
+              if (res.status === 404) {
                 history.push('/signup')
                 console.log("I got 404")
-            }
+              }
 
-            if (res.status === 204) {
+              if (res.status === 204) {
                 setUser({ ...user, email })
                 history.push('/signin-verify')
                 console.log("I got 204")
+              }
             }
         }}>
             <Text

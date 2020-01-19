@@ -27,9 +27,22 @@ export default () => {
 
 
     useEffect(() => {
-        const getTempToken = () => fetch(CONFIG.API + '/signin', {
+      let path = 'signin'
+      let body = {email: user.email}
+      if (window.isForSignup) {
+        path = 'signup'
+        body = {
+          email: window.email,
+          name: window.name,
+          bio: window.bio,
+          photos: [],
+        }
+      }
+      console.log(body)
+      console.log(path)
+        const getTempToken = () => fetch(CONFIG.API + '/' + path, {
             method: 'post',
-            body: JSON.stringify({ email: user.email }),
+            body: JSON.stringify(body),
             headers: {
                 "Content-Type": "application/json"
             },
@@ -63,83 +76,26 @@ export default () => {
                                 console.log(user)
                                 localStorage.setItem('userToken', d)
                                 history.push("/");
-
                             }
                         }).catch(e => {
                             console.log("HELLO" + e);
                             return null;
-
                         })
-
                         const res = upgrade();
-
-
-
                     }, 1000);
-
                 }
             }).catch(e => {
                 console.log("error getting temp token" + e);
                 return null;
-
             })
 
 
 
         getTempToken();
-        // const tok = getTempToken();
-        // console.log("TEMP TOKEN: ");
-        // console.log(tempToken);
-        // console.log(tok)
-
-        // if (tok !== null) {
-        //     setTempToken(tok);
-        // }
 
         return () => clearInterval(timer);
 
     }, []);
-
-
-    // useEffect(() => {
-    //     const timer = setInterval(() => {
-    //         console.log('This will run after 1 second!')
-    //         console.log(tempToken)
-    //         if (tempToken == null) {
-    //             return;
-    //         }
-
-    //         const upgrade = () => fetch(CONFIG.API + '/upgrade', {
-    //             method: 'post',
-    //             body: JSON.stringify({ tok: tempToken }),
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             },
-
-    //         }).then(res => res.json()).then(data => {
-    //             console.log("ACTUAL TOKEN");
-    //             console.log(data);
-    //         }).catch(e => {
-    //             console.log("HELLO" + e);
-    //             return null;
-
-    //         })
-
-    //         const res = upgrade();
-
-    //         if (res.status === 400) {
-    //             return;
-    //         }
-
-    //         if (res.status === 200) {
-    //             setUser({ ...user, tok: res.data });
-
-    //         }
-
-    //     }, 1000);
-    //     return () => clearInterval(timer);
-    // }, []);
-
 
     return (
         <div className={classes.root}>

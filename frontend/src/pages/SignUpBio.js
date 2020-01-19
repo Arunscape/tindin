@@ -72,10 +72,8 @@ margin: 2rem;`
 
 export default () => {
 
-    const [bio, setBio] = useState(null);
     const history = useHistory();
 
-    const { user, setUser } = useGlobalState();
 
 
     return (
@@ -87,10 +85,9 @@ export default () => {
         <Info>Showcase your date and/or hireability to the world! You have a character limit and only one place to showcase, so try your best to come up with the best summary of what you have to offer as you can! </Info>
         <Form noValidate autoComplete="on" onSubmit={() => {
             history.push("/signup-photos");
-            setUser({ ...user, bio })
         }}>
             <Bio
-                    onChange={(e) => setUser(e.target.value)}
+                    onChange={(e) => window.bio = e.target.value}
                     id="standard-basic"
                     label="Bio"
                     maxlength="600"
@@ -98,7 +95,6 @@ export default () => {
             />
             <Button type="submit">Verify</Button>
         </Form>
-        <div>{bio}</div>
     </Background>
     </Fixbackground>
     </Base>
