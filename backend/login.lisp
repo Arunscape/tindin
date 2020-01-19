@@ -17,11 +17,10 @@
 
 (defun is-valid (token)
   (handler-case
-    (let* ((tok (jose:decode :hs256 *key* token)
-            (email (cdr (assoc "email" tok :test #'string=)))
-            (id (cdr (assoc "id" tok :test #'string=)))))
-        (values id
-                email))
+    (let* ((tok (jose:decode :hs256 *key* token))
+           (email (cdr (assoc "email" tok :test #'string=)))
+           (id (cdr (assoc "id" tok :test #'string=))))
+        (values id email))
     (jose/errors:jws-verification-error ()
       nil)))
 
@@ -60,8 +59,6 @@
   (if (and (is-valid tok) (db:has-current-validation (is-valid tok)))
     (let ((email (get-from-token tok "email"))
           (id (get-from-token tok "id")))
-      (prin1 "AAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHH")
-      (terpri)
       (prin1 tok)
       (terpri)
       (let ((t2 (create-token id email t)))
