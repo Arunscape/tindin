@@ -10,8 +10,13 @@
    create-verification-entry
    has-current-validation
    validate
+<<<<<<< HEAD
    send-message
    get-messages))
+=======
+   swiped-on-you
+   unswiped))
+>>>>>>> 07995cfea5d9f442c21ba3684b120a685dc268af
 
 (in-package :tindin.database)
 
@@ -95,7 +100,6 @@
                  ("them" . ,(getf row :|d1|))
                  ("you" . ,(getf row :|d2|))))))
 
-
 (defun get-messages (from to n)
   (let* ((qstr "SELECT DISTINCT u_from, u_to, msg, time
                   FROM messages
@@ -114,3 +118,17 @@
   (dbi:do-sql *connection*
     "INSERT INTO messages (u_to, u_from, msg, timestamp) VALUES (?, ?, ?, NOW())"
     from to msg))
+
+(defun swiped-on-you (uid)
+  (let* ((qstr "SELECT swiper FROM swipes WHERE swipee=? and swiper not in
+                (SELECT swipee FROM swipes WHERE swiper=?)")
+         (query (dbi:prepare *connection* qstr))
+         (res (dbi:fetch (dbi:execute query uid uid))))
+    (if res (getf res :|swiper|) nil)))
+
+(defun unswiped (uid)
+  (let* ((qstr "SELECT uid FROM users WHERE uid != ? and uid not in
+                (SELECT swipee FROM swipes WHERE swiper=?)")
+         (query (dbi:prepare *connection* qstr))
+         (res (dbi:fetch (dbi:execute query uid uid))))
+    (if res (getf res :|uid|) nil)))
