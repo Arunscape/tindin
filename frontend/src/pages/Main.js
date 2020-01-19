@@ -17,7 +17,10 @@ import CONFIG from '../config'
 
 const useStyles = makeStyles({
     card: {
-        maxWidth: 345,
+        display: 'flex',
+        flexFlow: 'column nowrap',
+        justifyContent: 'center',
+
     },
     media: {
         height: 140,
@@ -27,8 +30,21 @@ const useStyles = makeStyles({
 
 
 const SwipeArea = styled.div`
-    width: 100%;
-    height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+width: 100vw;
+background-image: linear-gradient(#EE357B, #2768B3);
+
+`;
+
+const Name = styled.div`
+    font: bold 7vw Open Sans;
+    `;
+
+const Description = styled.div`
+    font:  5vw Open Sans;
     `;
 
 const Main = () => {
@@ -134,6 +150,10 @@ const Main = () => {
 
         console.log("ANGLE: " + angle)
 
+        if (swipee == null || angle == null) {
+            return;
+        }
+
         fetch(CONFIG.API + '/swipe',
             {
                 method: 'post',
@@ -142,7 +162,7 @@ const Main = () => {
                     "Authorization": user.tok,
                 },
                 body: JSON.stringify({
-                    swipee,
+                    swipee: swipee.id,
                     dir: angle,
                 })
 
@@ -187,14 +207,14 @@ const Main = () => {
     return <>
         {user.tok && (
             <SwipeArea>
-                <div>Hello</div>
+                {/* <div>Hello</div>
                 <div>Touchstart</div>
                 <div>{JSON.stringify(touchStart)}</div>
                 <div>Touchend</div>
                 <div>{JSON.stringify(touchEnd)}</div>
                 <div>Angle</div>
                 <div>{angle}</div>
-                <div>{user.tok}</div>
+                <div>{user.tok}</div> */}
                 <Card className={classes.card}>
                     <CardActionArea>
                         <CardMedia
@@ -203,23 +223,15 @@ const Main = () => {
                             title="Contemplative Reptile"
                         />
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
+                            <Name gutterBottom variant="h5" component="h2">
                                 Lizard
-          </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
+                            </Name>
+                            <Description variant="body2" color="textSecondary" component="p">
                                 Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
                                 across all continents except Antarctica
-          </Typography>
+          </Description>
                         </CardContent>
                     </CardActionArea>
-                    <CardActions>
-                        <Button size="small" color="primary">
-                            Share
-        </Button>
-                        <Button size="small" color="primary">
-                            Learn More
-        </Button>
-                    </CardActions>
                 </Card>
 
             </SwipeArea>)}
