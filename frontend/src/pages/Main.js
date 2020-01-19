@@ -99,15 +99,11 @@ const Main = () => {
             .then(data => {
                 console.log("NEXT PROFILE")
                 console.log(data)
-
                 setSwipee(data);
             }).catch(e => {
                 console.log("HELLO" + e);
-
             })
-
     }
-
         , [])
 
 
@@ -210,19 +206,11 @@ const Main = () => {
     return <>
         {user.tok && (
             <SwipeArea>
-                {/* <div>Hello</div>
-                                   <div>Touchstart</div>
-                                   <div>{JSON.stringify(touchStart)}</div>
-                                   <div>Touchend</div>
-                                   <div>{JSON.stringify(touchEnd)}</div>
-                                   <div>Angle</div>
-                                   <div>{angle}</div>
-                                   <div>{user.tok}</div> */}
                 <Card className={classes.card}>
                     <CardActionArea>
                         <CardMedia
                             className={classes.media}
-                            image="/static/images/cards/contemplative-reptile.jpg"
+                            image={swipee && swipee.photos[0]}
                             title="Contemplative Reptile"
                         />
                         <CardContent>
