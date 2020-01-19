@@ -47,4 +47,4 @@ CREATE TABLE IF NOT EXISTS swipes (
 INSERT INTO users (uid, uname, bio, email) VALUES
   (1, "Jacob", "Coolest", "jacob@reckhard.ca"),
   (2, "Peter", "Coolish", "pelliott@ualberta.ca"),
-  (3, "Arun", "Cool", "woosaur@ualberta.ca");
+  (3, "Arun", "Cool", "awoosare@ualberta.ca");
