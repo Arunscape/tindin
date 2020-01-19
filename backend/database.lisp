@@ -5,7 +5,10 @@
    start
    swipe
    matches
-   get-user-by-email))
+   get-userid-by-email
+   create-user
+   create-verification-entry
+   validate))
 
 (in-package :tindin.database)
 
@@ -16,8 +19,25 @@
                  :username (read in)
                  :password (read in))))
 
+(defun create-verification-entry (email slug)
+  (let ((uid (get-userid-by-email email)))
+    (dbi:do-sql *connection*
+      "INSERT INTO validations (uid, slug, timeout, isUsed) VALUES (?, ?, ?, ?)"
+      uid slug (utils:from-now 3600) 0)))
+
+
+(defun validate (slug)
+  (let* ((qstr "SELECT slug FROM validations WHERE slug = ?")
+         (query (dbi:prepare *connection* qstr))
+         (res (dbi:fetch (dbi:execute query id))))
+    (when res
+      (dbi:do-sql *connection*
+        "UPDATE validations SET isUsed = 1 WHERE slug = ?" slug))
+    res))
+
+
 (defun create-user (name email bio photos)
-  (let ((id (random 340282366920938463463374607431768211455)))
+  (let ((id (utils:make-id)))
     (dbi:do-sql *connection*
       "INSERT INTO users (id, uname, email, bio) VALUES (?, ?, ?, ?)"
       id name email bio)
@@ -40,13 +60,11 @@
     (prin1 res)
     res))
 
-(defun get-user-by-email (email)
-  (let* ((qstr "SELECT uid, email, uname, bio FROM users WHERE email = ?")
+(defun get-userid-by-email (email)
+  (let* ((qstr "SELECT uid, email FROM users WHERE email = ?")
          (query (dbi:prepare *connection* qstr))
          (res (dbi:fetch (dbi:execute query email))))
-    ; TODO: add photos
-    (prin1 res)
-    res))
+    (if res (getf res :|uid|) nil)))
 
 (defun swipe (swiper swipee theta)
   "the swiper swipes in direction theta on swipee"
