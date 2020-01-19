@@ -13,7 +13,8 @@
    send-message
    get-messages
    swiped-on-you
-   unswiped))
+   unswiped
+   get-user))
 
 (in-package :tindin.database)
 
@@ -68,8 +69,6 @@
   (let* ((qstr "SELECT uid, email, uname, bio FROM users WHERE uid = ?")
          (query (dbi:prepare *connection* qstr))
          (res (dbi:fetch (dbi:execute query id))))
-    ; TODO: add photos
-    (prin1 res)
     res))
 
 (defun get-userid-by-email (email)
@@ -80,10 +79,14 @@
 
 (defun swipe (swiper swipee theta)
   "the swiper swipes in direction theta on swipee"
-  (format t "~A ~A ~A~%" swiper swipee theta)
-  (dbi:do-sql *connection*
-    "INSERT INTO swipes (swiper, swipee, direction) VALUES (?, ?, ?)"
-    swiper swipee theta)
+  (let* ((qstr "SELECT direction FROM swipes WHERE swiper = ? AND swipee = ?")
+         (query (dbi:prepare *connection* qstr))
+         (res (dbi:fetch (dbi:execute query swiper swipee))))
+    (format t "~A~%" res)
+    (unless res
+      (dbi:do-sql *connection*
+        "INSERT INTO swipes (swiper, swipee, direction) VALUES (?, ?, ?)"
+        swiper swipee theta)))
   t)
 
 (defun matches (userid)

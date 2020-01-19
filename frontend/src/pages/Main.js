@@ -148,9 +148,23 @@ const Main = () => {
         const toDegrees = (x) => (x > 0 ? x : (2 * Math.PI + x)) * 360 / (2 * Math.PI)
         setAngle(toDegrees(-Math.atan2(touchEnd.y - touchStart.y, touchEnd.x - touchStart.x)));
 
-        console.log("ANGLE: " + angle)
+<<<<<<< HEAD
+        fetch(CONFIG.API + '/swipe',
+            {
+                method: 'post',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": user.tok,
+                },
+                body: JSON.stringify({
+                    swipee: swipee.id,
+                    dir: angle + "",
+                })
+=======
+    console.log("ANGLE: " + angle)
+>>>>>>> 73ca666f1e4365e7ce364a16d3353d7ba16ca139
 
-        if (swipee == null || angle == null) {
+    if(swipee == null || angle == null) {
             return;
         }
 
@@ -170,6 +184,7 @@ const Main = () => {
             .then(data => {
                 console.log("MATCHES")
                 console.log(data)
+                window.location.reload();
             }).catch(e => {
                 console.log("HELLO" + e);
 
@@ -203,18 +218,19 @@ const Main = () => {
         history.push('/signin');
 
     }, [])
+    console.log(swipee)
 
     return <>
         {user.tok && (
             <SwipeArea>
                 {/* <div>Hello</div>
-                <div>Touchstart</div>
-                <div>{JSON.stringify(touchStart)}</div>
-                <div>Touchend</div>
-                <div>{JSON.stringify(touchEnd)}</div>
-                <div>Angle</div>
-                <div>{angle}</div>
-                <div>{user.tok}</div> */}
+                                   <div>Touchstart</div>
+                                   <div>{JSON.stringify(touchStart)}</div>
+                                   <div>Touchend</div>
+                                   <div>{JSON.stringify(touchEnd)}</div>
+                                   <div>Angle</div>
+                                   <div>{angle}</div>
+                                   <div>{user.tok}</div> */}
                 <Card className={classes.card}>
                     <CardActionArea>
                         <CardMedia
@@ -224,12 +240,11 @@ const Main = () => {
                         />
                         <CardContent>
                             <Name gutterBottom variant="h5" component="h2">
-                                Lizard
+                                {swipee && swipee.name}
                             </Name>
                             <Description variant="body2" color="textSecondary" component="p">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                across all continents except Antarctica
-          </Description>
+                                {swipee && swipee.bio}
+                            </Description>
                         </CardContent>
                     </CardActionArea>
                 </Card>
