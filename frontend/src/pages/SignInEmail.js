@@ -25,10 +25,16 @@ export default () => {
 
 
     const checkemail = async () => {
-        return axios.post(CONFIG.API + '/checkemail',
+        return fetch(CONFIG.API + '/checkemail',
             {
-                email
+                method: 'post',
+                body: { email },
+
+            }).catch(e => {
+                console.log("HELLO" + e);
+
             })
+
     }
 
 
@@ -36,9 +42,16 @@ export default () => {
         <form className={classes.root} noValidate autoComplete="on" action="javascript:void(0);" onSubmit={async () => {
             // history.push("/signup-bio");
             const res = await checkemail();
-            console.log("REEEEEE")
-            console.log(res)
-            // setUser({ ...user, email })
+            // console.log("REEEEEE: " + res.status);status
+
+            if (res.status === 404) {
+                history.push('/signup')
+            }
+
+            if (res.status === 204) {
+                history.push('/signin-verify')
+            }
+            setUser({ ...user, email })
         }}>
             <TextField
                 // value={email}
