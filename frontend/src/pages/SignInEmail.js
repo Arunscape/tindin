@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { useHistory } from 'react-router';
 import useGlobalState from '../useGlobalState';
-import axios from 'axios'
 import CONFIG from '../config'
 
 const useStyles = makeStyles(theme => ({

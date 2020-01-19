@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import useGlobalState from '../useGlobalState';
 
 import CONFIG from '../config';
@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 export default () => {
     const classes = useStyles();
 
-    const { user, setUser, setLoggedIn } = useGlobalState();
+    const { user, setUser } = useGlobalState();
 
     // const [tempToken, setTempToken] = useState(null);
     let timer;
