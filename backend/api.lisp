@@ -21,14 +21,14 @@
            "GET, POST, PUT, DELETE, OPTIONS, HEAD"
            :access-control-allow-origin "*"
            :access-control-allow-headers
-           "Origin, X-Requested-With, Content-Type, Accept")
+           "Authorization, *")
           ())
         (let ((r (funcall app env)))
           (setf (cadr r) (append '(:access-control-allow-methods
                                    "GET, POST, PUT, DELETE, OPTIONS, HEAD"
                                    :access-control-allow-origin "*"
                                    :access-control-allow-headers
-                                   "Origin, X-Requested-With, Content-Type, Accept")
+                                   "Authorization, *")
                                  (cadr r)))
           r))))
 
