@@ -98,15 +98,11 @@ const Main = () => {
             .then(data => {
                 console.log("NEXT PROFILE")
                 console.log(data)
-
                 setSwipee(data);
             }).catch(e => {
                 console.log("HELLO" + e);
-
             })
-
     }
-
         , [])
 
 
