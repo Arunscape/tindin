@@ -20,6 +20,7 @@ const useStyles = makeStyles({
         display: 'flex',
         flexFlow: 'column nowrap',
         justifyContent: 'center',
+        width: '80vw',
 
     },
     media: {
@@ -144,9 +145,9 @@ const Main = () => {
         const toDegrees = (x) => (x > 0 ? x : (2 * Math.PI + x)) * 360 / (2 * Math.PI)
         setAngle(toDegrees(-Math.atan2(touchEnd.y - touchStart.y, touchEnd.x - touchStart.x)));
 
-    console.log("ANGLE: " + angle)
+        console.log("ANGLE: " + angle)
 
-    if(swipee == null || angle == null) {
+        if (swipee == null || angle == null) {
             return;
         }
 
@@ -202,29 +203,29 @@ const Main = () => {
     }, [])
     console.log(swipee)
 
-  return <>
-                            {user.tok && (
-                              <SwipeArea>
-                                <Card className={classes.card}>
-                                  <CardActionArea>
-                                    <CardMedia
-                                      className={classes.media}
-                                      image={swipee && swipee.photos[0]}
-                                      title="Contemplative Reptile"
-                                    />
-                                    <CardContent>
-                                      <Name gutterBottom variant="h5" component="h2">
-                                        {swipee && swipee.name}
-                                      </Name>
-                                      <Description variant="body2" color="textSecondary" component="p">
-                                        {swipee && swipee.bio}
-                                      </Description>
-                                    </CardContent>
-                                  </CardActionArea>
-                                </Card>
+    return <>
+        {user.tok && (
+            <SwipeArea>
+                <Card className={classes.card}>
+                    <CardActionArea>
+                        <CardMedia
+                            className={classes.media}
+                            image={swipee && swipee.photos[0]}
+                            title="Contemplative Reptile"
+                        />
+                        <CardContent>
+                            <Name gutterBottom variant="h5" component="h2">
+                                {swipee && swipee.name}
+                            </Name>
+                            <Description variant="body2" color="textSecondary" component="p">
+                                {swipee && swipee.bio}
+                            </Description>
+                        </CardContent>
+                    </CardActionArea>
+                </Card>
 
-                              </SwipeArea>)}
-                                       </>
+            </SwipeArea>)}
+    </>
 
 
 }
