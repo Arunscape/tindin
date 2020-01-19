@@ -4,7 +4,8 @@
   (:export
    start
    swipe
-   matches))
+   matches
+   get-user-by-email))
 
 (in-package :tindin.database)
 
@@ -23,12 +24,26 @@
     (loop for photo in photos do
          (dbi:do-sql *connection*
            "INSERT INTO photos (uid, url) VALUES (?, ?)"
-           id photo))))
+           id photo))
+    (list
+     :|uid| id
+     :|name| name
+     :|email| email
+     :|bio| bio
+     :|photos| photos)))
 
 (defun get-user (id)
   (let* ((qstr "SELECT uid, email, uname, bio FROM users WHERE uid = ?")
          (query (dbi:prepare *connection* qstr))
          (res (dbi:fetch (dbi:execute query id))))
+    ; TODO: add photos
+    (prin1 res)
+    res))
+
+(defun get-user-by-email (email)
+  (let* ((qstr "SELECT uid, email, uname, bio FROM users WHERE email = ?")
+         (query (dbi:prepare *connection* qstr))
+         (res (dbi:fetch (dbi:execute query email))))
     ; TODO: add photos
     (prin1 res)
     res))

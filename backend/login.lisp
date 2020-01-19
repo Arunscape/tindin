@@ -15,14 +15,28 @@
          (id (assoc "id" tok)))
     t))
 
-(defun create-token (id email)
+(defun is-privilaged (token)
+  (let* ((tok (jose:decode :hs256 *key* token))
+         (email (assoc "email" tok))
+         (id (assoc "id" tok))
+         (isfull (assoc "isfull" tok)))
+    isfull))
+
+(defun create-token (id email isfull)
   (jose:encode :hs256 *key* (list (cons "email" email)
-                                  (cons "id" id))))
+                                  (cons "id" id)
+                                  (cons "isfull" isfull))))
+
+(defun verify-email-process (email)
+  1)
+
+(defun create-user-account (name email bio photos)
+  (db:create-user name email bio photos))
 
 (setf (ningle:route *app* "/api/checkemail" :method :POST)
       #'(lambda (params)
           (let ((email (cdr (assoc "email" params :test #'string=))))
-            (prin1 email))))
+            (list (if (db:get-user-by-email email) 204 404) nil))))
 
 (setf (ningle:route *app* "/api/signup" :method :POST)
       #'(lambda (params)
@@ -30,12 +44,13 @@
                 (name (cdr (assoc "name" params :test #'string=)))
                 (bio (cdr (assoc "bio" params :test #'string=)))
                 (photos (cdr (assoc "photos" params :test #'string=))))
-            (prin1 email))))
+            (create-user-account name email bio photos)
+            (verify-email-process email))))
 
 (setf (ningle:route *app* "/api/signin" :method :POST)
       #'(lambda (params)
           (let ((email (cdr (assoc "email" params :test #'string=))))
-            (prin1 email))))
+            (verify-email-process email))))
 
 (setf (ningle:route *app* "/api/validate/:token" :method :GET)
       #'(lambda (params)

@@ -9,7 +9,8 @@
 (defvar *app* (make-instance 'ningle:app))
 
 (defun starts-with (str start)
-  (string= start (subseq str 0 (length start))))
+  (and (>= (length str) (length start))
+       (string= start (subseq str 0 (length start)))))
 
 (defvar *static-app*
   (lack:builder
