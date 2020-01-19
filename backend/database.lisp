@@ -10,13 +10,10 @@
    create-verification-entry
    has-current-validation
    validate
-<<<<<<< HEAD
    send-message
-   get-messages))
-=======
+   get-messages
    swiped-on-you
    unswiped))
->>>>>>> 07995cfea5d9f442c21ba3684b120a685dc268af
 
 (in-package :tindin.database)
 
