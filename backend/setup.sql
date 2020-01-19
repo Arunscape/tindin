@@ -10,6 +10,15 @@ CREATE TABLE IF NOT EXISTS users (
   bio TEXT
 );
 
+CREATE TABLE IF NOT EXISTS messages (
+  u_to BIGINT,
+  u_from BIGINT,
+  msg TEXT NOT NULL,
+  time DATE,
+  FOREIGN KEY (u_to) REFERENCES users(uid) ON DELETE CASCADE,
+  FOREIGN KEY (u_from) REFERENCES users(uid) ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS photos (
   uid BIGINT,
   url TEXT,
