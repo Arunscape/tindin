@@ -21,7 +21,7 @@
                  :password (read in))))
 
 (defun has-current-validation (id)
-  (let* ((qstr "SELECT * FROM validations WHERE timeout > NOW() AND uid = 1")
+  (let* ((qstr "SELECT * FROM validations WHERE timeout > NOW() AND uid = ?")
          (query (dbi:prepare *connection* qstr))
          (res (dbi:fetch (dbi:execute query id))))
     res))
@@ -29,8 +29,8 @@
 (defun create-verification-entry (email slug)
   (let ((uid (get-userid-by-email email)))
     (dbi:do-sql *connection*
-      "INSERT INTO validations (uid, slug, timeout, isUsed) VALUES (?, ?, ?, ?)"
-      uid slug (utils:from-now 3600) 0)))
+      "INSERT INTO validations (uid, slug, timeout, isUsed) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 2 HOUR), ?)"
+      uid slug 0)))
 
 
 (defun validate (slug)
