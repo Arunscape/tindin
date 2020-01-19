@@ -34,7 +34,7 @@
                 (db:swipe uid
                           (cdr (assoc "swipee" params :test #'string=))
                           (cdr (assoc "dir" params :test #'string=)))
-                '(200 nil "thanks for the swipe mate"))
+                '(200 nil ("thanks for the swipe mate")))
             '(403 () ("faaaaaack off m8"))))))
 
 

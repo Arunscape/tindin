@@ -170,6 +170,7 @@ const Main = () => {
       .then(data => {
         console.log("MATCHES")
         console.log(data)
+        window.location.reload();
       }).catch(e => {
         console.log("HELLO" + e);
 
