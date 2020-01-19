@@ -1,6 +1,6 @@
 cat << EOF | sbcl
 
 (ql:quickload '(clack tindin))
-(clack:clackup tindin.api:*app* :use-thread nil)
+(clack:clackup tindin.api:*static-app* :use-thread nil)
 
 EOF

@@ -14,8 +14,29 @@ export default () => {
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
 
-    const handleTouchStart = (event) => setTouchStart(event);
-    const handleTouchEnd = (event) => setTouchEnd(event);
+    const handleTouchStart = (e) => {
+        console.log(e)
+        e.preventDefault();
+        const x = e.touches[0].screenX;
+        const y = e.touches[0].screenY;
+        setTouchStart({
+            x,
+            y,
+        });
+    }
+    const handleTouchEnd = (e) => {
+        console.log(e)
+        e.preventDefault();
+        const x = e.changedTouches[0].screenX;
+        const y = e.changedTouches[0].screenY;
+        setTouchEnd({
+            x,
+            y,
+            diffX: touchStart ? touchStart.x - x : null,
+            diffY: touchStart ? touchStart.y - y : null,
+            angle: touchStart ? Math.atan2(touchStart.y - y, touchStart.x - x) : null,
+        });
+    }
 
     useEffect(() => {
         window.addEventListener('touchstart', handleTouchStart);

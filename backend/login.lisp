@@ -13,7 +13,7 @@
 
 (defun get-from-token (token value)
   (let ((tok (jose:decode :hs256 *key* token)))
-    (cdr (assoc value tok))))
+    (cdr (assoc value tok :test #'string=))))
 
 (defun is-valid (token)
   (handler-case
