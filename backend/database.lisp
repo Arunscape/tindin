@@ -68,12 +68,9 @@
 
 (defun swipe (swiper swipee theta)
   "the swiper swipes in direction theta on swipee"
-  (prin1 swiper)
-  (terpri)
-  (prin1 swipee)
-  (terpri)
-  (prin1 theta)
-  (terpri)
+  (dbi:do-sql *connection*
+    "INSERT INTO swipes (swiper, swipee, direction) VALUES (?, ?, ?)"
+    swiper swipee theta)
   t)
 
 (defun matches (userid)
