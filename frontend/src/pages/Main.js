@@ -163,7 +163,7 @@ const Main = () => {
                 },
                 body: JSON.stringify({
                     swipee: swipee.id,
-                    dir: angle,
+                    dir: angle+"",
                 })
 
             }).then(res => res.json())

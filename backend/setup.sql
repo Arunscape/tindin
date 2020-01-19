@@ -22,7 +22,6 @@ CREATE TABLE IF NOT EXISTS messages (
 CREATE TABLE IF NOT EXISTS photos (
   uid BIGINT,
   url TEXT,
-  direction DECIMAL,
   FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE
 );
 
@@ -38,10 +37,8 @@ CREATE TABLE IF NOT EXISTS validations (
 CREATE TABLE IF NOT EXISTS swipes (
   swiper BIGINT,
   swipee BIGINT,
-  direction DECIMAL,
-  PRIMARY KEY (swiper, swipee),
-  FOREIGN KEY (swiper) REFERENCES users(uid) ON DELETE CASCADE,
-  FOREIGN KEY (swipee) REFERENCES users(uid) ON DELETE CASCADE
+  direction FLOAT,
+  PRIMARY KEY (swiper, swipee)
 );
 
 INSERT INTO users (uid, uname, bio, email) VALUES

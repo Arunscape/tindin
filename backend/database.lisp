@@ -80,6 +80,7 @@
 
 (defun swipe (swiper swipee theta)
   "the swiper swipes in direction theta on swipee"
+  (format t "~A ~A ~A~%" swiper swipee theta)
   (dbi:do-sql *connection*
     "INSERT INTO swipes (swiper, swipee, direction) VALUES (?, ?, ?)"
     swiper swipee theta)
