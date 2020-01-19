@@ -25,10 +25,11 @@ export default () => {
 
 
     const checkemail = async () => {
+        console.log(email)
         return fetch(CONFIG.API + '/checkemail',
             {
                 method: 'post',
-                body: { email },
+                body: JSON.stringify({ email }),
 
             }).catch(e => {
                 console.log("HELLO" + e);
@@ -45,11 +46,13 @@ export default () => {
             // console.log("REEEEEE: " + res.status);status
 
             if (res.status === 404) {
-                history.push('/signup')
+                // history.push('/signup')
+                console.log("I got 404")
             }
 
             if (res.status === 204) {
-                history.push('/signin-verify')
+                // history.push('/signin-verify')
+                console.log("I got 204")
             }
             setUser({ ...user, email })
         }}>
@@ -60,7 +63,7 @@ export default () => {
                 label="email" />
             <button type="submit">Verify</button>
         </form>
-        {/* <div>{email}</div> */}
+        <div>{email}</div>
     </>
     );
 }
