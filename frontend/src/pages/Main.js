@@ -16,15 +16,15 @@ import styled from 'styled-components'
 import CONFIG from '../config'
 
 const useStyles = makeStyles({
-    card: {
-        display: 'flex',
-        flexFlow: 'column nowrap',
-        justifyContent: 'center',
+  card: {
+    display: 'flex',
+    flexFlow: 'column nowrap',
+    justifyContent: 'center',
 
-    },
-    media: {
-        height: 140,
-    },
+  },
+  media: {
+    height: 140,
+  },
 });
 
 
@@ -48,194 +48,194 @@ const Description = styled.div`
     `;
 
 const Main = () => {
-    const classes = useStyles();
+  const classes = useStyles();
 
-    const [touchStart, setTouchStart] = useState(null);
-    const [touchEnd, setTouchEnd] = useState(null);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
 
-    const [angle, setAngle] = useState(null);
+  const [angle, setAngle] = useState(null);
 
-    const { user, setUser } = useGlobalState();
-    const history = useHistory();
+  const { user, setUser } = useGlobalState();
+  const history = useHistory();
 
-    const [swipee, setSwipee] = useState(null);
+  const [swipee, setSwipee] = useState(null);
 
 
-    // useEffect(() => {
-    //     fetch(CONFIG.API + '/matches',
-    //         {
-    //             method: 'get',
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": user.tok,
-    //             },
+  // useEffect(() => {
+  //     fetch(CONFIG.API + '/matches',
+  //         {
+  //             method: 'get',
+  //             headers: {
+  //                 "Content-Type": "application/json",
+  //                 "Authorization": user.tok,
+  //             },
 
-    //         }).then(res => res.json())
-    //         .then(data => {
-    //             console.log("MATCHES")
-    //             console.log(data)
-    //         }).catch(e => {
-    //             console.log("HELLO" + e);
+  //         }).then(res => res.json())
+  //         .then(data => {
+  //             console.log("MATCHES")
+  //             console.log(data)
+  //         }).catch(e => {
+  //             console.log("HELLO" + e);
 
-    //         })
+  //         })
 
-    // }
+  // }
 
-    //     , [])
+  //     , [])
 
-    useEffect(() => {
+  useEffect(() => {
 
-        console.log(user.tok)
-        fetch(CONFIG.API + '/next-profile',
-            {
-                method: 'get',
-                headers: {
-                    // "Content-Type": "application/json",
-                    "Authorization": localStorage.getItem('userToken'),
-                },
+    console.log(user.tok)
+    fetch(CONFIG.API + '/next-profile',
+          {
+            method: 'get',
+            headers: {
+              // "Content-Type": "application/json",
+              "Authorization": localStorage.getItem('userToken'),
+            },
 
-            }).then(res => res.json())
-            .then(data => {
-                console.log("NEXT PROFILE")
-                console.log(data)
+          }).then(res => res.json())
+      .then(data => {
+        console.log("NEXT PROFILE")
+        console.log(data)
 
-                setSwipee(data);
-            }).catch(e => {
-                console.log("HELLO" + e);
+        setSwipee(data);
+      }).catch(e => {
+        console.log("HELLO" + e);
 
+      })
+
+  }
+
+            , [])
+
+
+  const handleTouchStart = (e) => {
+    // console.log(e)
+    e.preventDefault();
+    const x = e.touches[0].screenX;
+    const y = e.touches[0].screenY;
+    setTouchStart({
+      x,
+      y,
+    });
+    console.log("TOUCHSTART: ", x, y);
+    if (touchStart == null) {
+      console.log("WHY THE FUCK IS IT NULL?")
+    }
+  }
+  const handleTouchEnd = (e) => {
+    // console.log(e)
+    e.preventDefault();
+    const x = e.changedTouches[0].screenX;
+    const y = e.changedTouches[0].screenY;
+    setTouchEnd({
+      x,
+      y,
+    });
+    console.log("TOUCHEND: ", JSON.stringify(touchEnd));
+
+
+
+  }
+
+  useEffect(() => {
+
+    if (touchStart == null || touchEnd == null) {
+      return;
+    }
+
+    const toDegrees = (x) => (x > 0 ? x : (2 * Math.PI + x)) * 360 / (2 * Math.PI)
+    setAngle(toDegrees(-Math.atan2(touchEnd.y - touchStart.y, touchEnd.x - touchStart.x)));
+
+    console.log("ANGLE: " + angle)
+
+    if (swipee == null || angle == null) {
+      return;
+    }
+
+    fetch(CONFIG.API + '/swipe',
+          {
+            method: 'post',
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": user.tok,
+            },
+            body: JSON.stringify({
+              swipee: swipee.id,
+              dir: angle+"",
             })
 
+          }).then(res => res.json())
+      .then(data => {
+        console.log("MATCHES")
+        console.log(data)
+      }).catch(e => {
+        console.log("HELLO" + e);
+
+      })
+
+
+  }, [touchStart, touchEnd])
+
+  useEffect(() => {
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchend', handleTouchEnd);
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, []);
+
+  useEffect(() => {
+    // run before page loads
+    const tok = localStorage.getItem('userToken');
+    if (tok !== null) {
+      setUser({ ...user, tok })
+      console.log("SETTING USER TOKEN TO")
+      console.log(user.tok)
+      console.log(tok)
+      console.log({ ...user, tok })
+      return;
     }
 
-        , [])
+    history.push('/signin');
 
+  }, [])
+  console.log(swipee)
 
-    const handleTouchStart = (e) => {
-        // console.log(e)
-        e.preventDefault();
-        const x = e.touches[0].screenX;
-        const y = e.touches[0].screenY;
-        setTouchStart({
-            x,
-            y,
-        });
-        console.log("TOUCHSTART: ", x, y);
-        if (touchStart == null) {
-            console.log("WHY THE FUCK IS IT NULL?")
-        }
-    }
-    const handleTouchEnd = (e) => {
-        // console.log(e)
-        e.preventDefault();
-        const x = e.changedTouches[0].screenX;
-        const y = e.changedTouches[0].screenY;
-        setTouchEnd({
-            x,
-            y,
-        });
-        console.log("TOUCHEND: ", JSON.stringify(touchEnd));
+  return <>
+                            {user.tok && (
+                              <SwipeArea>
+                                {/* <div>Hello</div>
+                                   <div>Touchstart</div>
+                                   <div>{JSON.stringify(touchStart)}</div>
+                                   <div>Touchend</div>
+                                   <div>{JSON.stringify(touchEnd)}</div>
+                                   <div>Angle</div>
+                                   <div>{angle}</div>
+                                   <div>{user.tok}</div> */}
+                                <Card className={classes.card}>
+                                  <CardActionArea>
+                                    <CardMedia
+                                      className={classes.media}
+                                      image="/static/images/cards/contemplative-reptile.jpg"
+                                      title="Contemplative Reptile"
+                                    />
+                                    <CardContent>
+                                      <Name gutterBottom variant="h5" component="h2">
+                                        {swipee && swipee.name}
+                                      </Name>
+                                      <Description variant="body2" color="textSecondary" component="p">
+                                        {swipee && swipee.bio}
+                                      </Description>
+                                    </CardContent>
+                                  </CardActionArea>
+                                </Card>
 
-
-
-    }
-
-    useEffect(() => {
-
-        if (touchStart == null || touchEnd == null) {
-            return;
-        }
-
-        const toDegrees = (x) => (x > 0 ? x : (2 * Math.PI + x)) * 360 / (2 * Math.PI)
-        setAngle(toDegrees(-Math.atan2(touchEnd.y - touchStart.y, touchEnd.x - touchStart.x)));
-
-        console.log("ANGLE: " + angle)
-
-        if (swipee == null || angle == null) {
-            return;
-        }
-
-        fetch(CONFIG.API + '/swipe',
-            {
-                method: 'post',
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": user.tok,
-                },
-                body: JSON.stringify({
-                    swipee: swipee.id,
-                    dir: angle+"",
-                })
-
-            }).then(res => res.json())
-            .then(data => {
-                console.log("MATCHES")
-                console.log(data)
-            }).catch(e => {
-                console.log("HELLO" + e);
-
-            })
-
-
-    }, [touchStart, touchEnd])
-
-    useEffect(() => {
-        window.addEventListener('touchstart', handleTouchStart);
-        window.addEventListener('touchend', handleTouchEnd);
-
-        return () => {
-            window.removeEventListener('touchstart', handleTouchStart);
-            window.removeEventListener('touchend', handleTouchEnd);
-        };
-    }, []);
-
-    useEffect(() => {
-        // run before page loads
-        const tok = localStorage.getItem('userToken');
-        if (tok !== null) {
-            setUser({ ...user, tok })
-            console.log("SETTING USER TOKEN TO")
-            console.log(user.tok)
-            console.log(tok)
-            console.log({ ...user, tok })
-            return;
-        }
-
-        history.push('/signin');
-
-    }, [])
-
-    return <>
-        {user.tok && (
-            <SwipeArea>
-                {/* <div>Hello</div>
-                <div>Touchstart</div>
-                <div>{JSON.stringify(touchStart)}</div>
-                <div>Touchend</div>
-                <div>{JSON.stringify(touchEnd)}</div>
-                <div>Angle</div>
-                <div>{angle}</div>
-                <div>{user.tok}</div> */}
-                <Card className={classes.card}>
-                    <CardActionArea>
-                        <CardMedia
-                            className={classes.media}
-                            image="/static/images/cards/contemplative-reptile.jpg"
-                            title="Contemplative Reptile"
-                        />
-                        <CardContent>
-                            <Name gutterBottom variant="h5" component="h2">
-                              {JSON.stringify(swipee)}
-                            </Name>
-                            <Description variant="body2" color="textSecondary" component="p">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                across all continents except Antarctica
-          </Description>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-
-            </SwipeArea>)}
-    </>
+                              </SwipeArea>)}
+                                       </>
 
 
 }

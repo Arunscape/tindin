@@ -16,7 +16,12 @@
                    (let ((id (or (db:swiped-on-you uid)
                                  (db:unswiped uid))))
                      (if id
-                         (db:get-user id)
+                         (let ((user (db:get-user id)))
+                           (list
+                             (cons "name" (getf user :|uname|))
+                             (cons "id" (getf user :|uid|))
+                             (cons "bio" (getf user :|bio|))
+                             (cons "photos" (getf user :|photos|))))
                          nil)))))
 
             '(403 () ("oi! log in ya bastard!"))))))
