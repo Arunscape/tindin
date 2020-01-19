@@ -50,10 +50,10 @@ const Description = styled.div`
 const Main = () => {
     const classes = useStyles();
 
-    const [touchStart, setTouchStart] = useState(null);
-    const [touchEnd, setTouchEnd] = useState(null);
+    const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
+    const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
 
-    const [angle, setAngle] = useState(null);
+    const [angle, setAngle] = useState(360);
 
     const { user, setUser } = useGlobalState();
     const history = useHistory();
@@ -163,7 +163,7 @@ const Main = () => {
                 },
                 body: JSON.stringify({
                     swipee: swipee.id,
-                    dir: angle+"",
+                    dir: angle + "",
                 })
 
             }).then(res => res.json())

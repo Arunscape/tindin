@@ -23,7 +23,7 @@ display: flex;
 `;
 
 const Button = styled.button`
-background-color: white;
+background-cohttps://i.kym-cdn.com/photos/images/original/001/258/245/48f.pnglor: white;
 :active{
 background-color: #A0C9F2;
 }

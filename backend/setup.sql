@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS photos (
   url TEXT,
   FOREIGN KEY (uid) REFERENCES users(uid) ON DELETE CASCADE
 );
+INSERT INTO photos(uid, url) VALUES
+  (3, "https://i.kym-cdn.com/photos/images/original/001/258/245/48f.png");
 
 CREATE TABLE IF NOT EXISTS validations (
   slug BIGINT,
@@ -44,4 +46,4 @@ CREATE TABLE IF NOT EXISTS swipes (
 INSERT INTO users (uid, uname, bio, email) VALUES
   (1, "Jacob", "Coolest", "jacob@reckhard.ca"),
   (2, "Peter", "Coolish", "pelliott@ualberta.ca"),
-  (3, "Arun", "Cool", "awoosare@ualberta.ca");
+  (3, "Arun", "I use Arch Linux, btw", "awoosare@ualberta.ca");
