@@ -3,7 +3,7 @@ import BottomBar from '../components/BottomBar.js'
 import config from '../config.js'
 import './Chat.css';
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImphY29iQHJlY2toYXJkLmNhIiwiaWQiOjEsImlzZnVsbCI6dHJ1ZX0.1GKdrDlvbCOOey9OPfbgRB2RNMwso6ryDQeezbkpW-"
+const token = "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6ImphY29iQHJlY2toYXJkLmNhIiwiaWQiOjEsImlzZnVsbCI6dHJ1ZX0.uWePnCAsXWhX45WpHBskghob-D26NhWCcIvxeGPXh-U"
 
 class Header extends React.Component {
   render() {
@@ -63,9 +63,7 @@ export default class Chat extends React.Component {
 
     // TODO: use this for getting list of users
     fetch(`${config.API}/matches`, {
-      method: 'post',
       headers: {'Authorization': token},
-      body: { email: "ahh" },
     }).then((response) => {
       return console.log(response)
     });
