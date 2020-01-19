@@ -25,7 +25,7 @@
                  :password (read in))))
 
 (defun has-current-validation (id)
-  (let* ((qstr "SELECT * FROM validations WHERE timeout > NOW() AND uid = ?")
+  (let* ((qstr "SELECT * FROM validations WHERE timeout > NOW() AND uid = ? AND isUsed=1")
          (query (dbi:prepare *connection* qstr))
          (res (dbi:fetch (dbi:execute query id))))
     res))
