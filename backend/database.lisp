@@ -13,7 +13,8 @@
    send-message
    get-messages
    swiped-on-you
-   unswiped))
+   unswiped
+   get-user))
 
 (in-package :tindin.database)
 
@@ -68,8 +69,6 @@
   (let* ((qstr "SELECT uid, email, uname, bio FROM users WHERE uid = ?")
          (query (dbi:prepare *connection* qstr))
          (res (dbi:fetch (dbi:execute query id))))
-    ; TODO: add photos
-    (prin1 res)
     res))
 
 (defun get-userid-by-email (email)

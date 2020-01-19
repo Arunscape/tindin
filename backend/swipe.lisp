@@ -16,7 +16,7 @@
                    (let ((id (or (db:swiped-on-you uid)
                                  (db:unswiped uid))))
                      (if id
-                         `(("id" . ,id))
+                         (db:get-user id)
                          nil)))))
 
             '(403 () ("oi! log in ya bastard!"))))))
