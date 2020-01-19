@@ -68,12 +68,14 @@ const Main = () => {
     //     , [])
 
     useEffect(() => {
+
+        console.log(user.tok)
         fetch(CONFIG.API + '/next-profile',
             {
                 method: 'get',
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": user.tok,
+                    // "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem('userToken'),
                 },
 
             }).then(res => res.json())
@@ -192,6 +194,7 @@ const Main = () => {
                 <div>{JSON.stringify(touchEnd)}</div>
                 <div>Angle</div>
                 <div>{angle}</div>
+                <div>{user.tok}</div>
                 <Card className={classes.card}>
                     <CardActionArea>
                         <CardMedia
