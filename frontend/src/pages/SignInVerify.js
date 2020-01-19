@@ -27,19 +27,19 @@ export default () => {
 
 
     useEffect(() => {
-      let path = 'signin'
-      let body = {email: user.email}
-      if (window.isForSignup) {
-        path = 'signup'
-        body = {
-          email: window.email,
-          name: window.name,
-          bio: window.bio,
-          photos: [],
+        let path = 'signin'
+        let body = { email: user.email }
+        if (window.isForSignup) {
+            path = 'signup'
+            body = {
+                email: window.email,
+                name: window.name,
+                bio: window.bio,
+                photos: window.photos,
+            }
         }
-      }
-      console.log(body)
-      console.log(path)
+        console.log(body)
+        console.log(path)
         const getTempToken = () => fetch(CONFIG.API + '/' + path, {
             method: 'post',
             body: JSON.stringify(body),
