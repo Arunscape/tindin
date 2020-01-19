@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import useGlobalState from '../useGlobalState';
 
+import CONFIG from '../config';
+
 import styled from 'styled-components'
+import Axios from 'axios';
+import { copyFile } from 'fs';
 
 const SwipeArea = styled.div`
     width: 100%;
@@ -15,6 +19,9 @@ const Main = () => {
     const [touchEnd, setTouchEnd] = useState(null);
 
     const [angle, setAngle] = useState(null);
+
+    const { user, setUser } = useGlobalState();
+    const history = useHistory();
 
     const handleTouchStart = (e) => {
         // console.log(e)
@@ -64,20 +71,39 @@ const Main = () => {
         };
     }, []);
 
-    const { loggedIn } = useGlobalState();
-    // return <>
-    //     {loggedIn ? <div>You're logged in</div> : <Redirect to="/signin" />}
-    // </>
+    useEffect(() => {
+        // run before page loads
+        const tok = localStorage.getItem('userToken');
+        if (tok !== null) {
+            setUser({ ...user, tok })
+            return;
+        }
 
-    return <SwipeArea>
-        <div>Hello</div>
-        <div>Touchstart</div>
-        <div>{JSON.stringify(touchStart)}</div>
-        <div>Touchend</div>
-        <div>{JSON.stringify(touchEnd)}</div>
-        <div>Angle</div>
-        <div>{angle}</div>
-    </SwipeArea>
+        // const getToken = async () => {
+        //     return await axios.post(CONFIG.API + '/checkemail', {
+        //         {
+        //             "email": user.em
+        //         }
+        //     })
+
+        console.log("HEEEEEEYYYYYYY");
+        history.push('/signin');
+
+    }, [])
+
+    return <>
+        {user.tok && (
+            <SwipeArea>
+                <div>Hello</div>
+                <div>Touchstart</div>
+                <div>{JSON.stringify(touchStart)}</div>
+                <div>Touchend</div>
+                <div>{JSON.stringify(touchEnd)}</div>
+                <div>Angle</div>
+                <div>{angle}</div>
+            </SwipeArea>)}
+    </>
+
 
 }
 
