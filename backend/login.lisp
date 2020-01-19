@@ -1,7 +1,8 @@
 (defpackage :tindin.login
   (:use :cl :tindin.api :jose)
   (:export
-    #:*app*))
+   #:*app*
+   user-info))
 
 (in-package :tindin.login)
 
@@ -15,10 +16,14 @@
     (cdr (assoc value tok))))
 
 (defun is-valid (token)
-  (let* ((tok (jose:decode :hs256 *key* token))
-         (email (cdr (assoc "email" tok :test #'string=)))
-         (id (cdr (assoc "id" tok :test #'string=))))
-    id))
+  (handler-case
+    (let* ((tok (jose:decode :hs256 *key* token)
+            (email (cdr (assoc "email" tok :test #'string=)))
+            (id (cdr (assoc "id" tok :test #'string=)))))
+        (values id
+                email))
+    (jose/errors:jws-verification-error ()
+      nil)))
 
 (defun is-privilaged (token)
   (let* ((tok (jose:decode :hs256 *key* token))
@@ -26,6 +31,11 @@
          (id (assoc "id" tok))
          (isfull (assoc "isfull" tok)))
     isfull))
+
+(defun user-info ()
+  (let ((tok (gethash "authorization"
+                      (lack.request:request-headers ningle:*request*))))
+    (is-valid tok)))
 
 (defun create-token (id email isfull)
   (jose:encode :hs256 *key* (list (cons "email" email)
