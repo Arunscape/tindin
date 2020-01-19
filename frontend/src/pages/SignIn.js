@@ -2,8 +2,7 @@ import React from 'react'
 import { useHistory } from "react-router-dom";
 import styled from 'styled-components'
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Tindinlogo from '../assets/tindinlogo.svg'
-import axios from 'axios';
+import Tindinlogo from '../assets/tindinlogo.svg';
 
 const Centering = styled.div`
 text-align: center;
@@ -11,8 +10,10 @@ margin: 2rem;
 `;
 
 
-export default () => {
+const SignIn = () => {
     const history = useHistory();
+
+
 
     return <>
         <CssBaseline />
@@ -22,4 +23,6 @@ export default () => {
     </>
 
 }
+
+export default SignIn;
 

@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import useGlobalState from '../useGlobalState';
 
-import CONFIG from '../config';
 
 import styled from 'styled-components'
-import Axios from 'axios';
-import { copyFile } from 'fs';
 
 const SwipeArea = styled.div`
     width: 100%;
@@ -79,12 +76,7 @@ const Main = () => {
             return;
         }
 
-        // const getToken = async () => {
-        //     return await axios.post(CONFIG.API + '/checkemail', {
-        //         {
-        //             "email": user.em
-        //         }
-        //     })
+
 
         console.log("HEEEEEEYYYYYYY");
         history.push('/signin');
