@@ -10,6 +10,7 @@
   :components ((:module "backend"
                 :components
                 ((:file "utils")
+                 (:file "lack")
                  (:file "database")
                  (:file "api")
                  (:file "swipe")

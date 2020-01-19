@@ -17,7 +17,7 @@ export default () => {
     const classes = useStyles();
 
     const [valid, setValid] = useState('unknown');
-    const { loggedin, setLoggedIn } = useGlobalState();
+    const { setLoggedIn } = useGlobalState();
 
     useEffect(() => {
 
@@ -39,8 +39,8 @@ export default () => {
         <div className={classes.root}>
             <div>Verifying...</div>
             <LinearProgress />
-            {valid == 'loggedin' && <Redirect to="/" />}
-            {valid == 'needssignup' && <Redirect to="/signup" />}
+            {valid === 'loggedin' && <Redirect to="/" />}
+            {valid === 'needssignup' && <Redirect to="/signup" />}
         </div>
     );
 }
