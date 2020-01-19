@@ -65,10 +65,18 @@
      :|bio| bio
      :|photos| photos)))
 
+(defun get-user-photos (id)
+  (let* ((qstr "SELECT DISTINCT url FROM photos WHERE uid=?")
+         (query (dbi:execute (dbi:prepare *connection* qstr) id)))
+    (loop for row = (dbi:fetch query)
+       while row
+       collect (getf row :|url|))))
+
 (defun get-user (id)
   (let* ((qstr "SELECT uid, email, uname, bio FROM users WHERE uid = ?")
          (query (dbi:prepare *connection* qstr))
          (res (dbi:fetch (dbi:execute query id))))
+    (setf (getf res :|photos|) (get-user-photos id))
     res))
 
 (defun get-userid-by-email (email)

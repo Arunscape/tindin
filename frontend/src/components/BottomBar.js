@@ -8,6 +8,8 @@ import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
 import HomeIcon from '@material-ui/icons/Home';
 
+import styled from 'styled-components';
+
 import {
     ChatProcessing as ChatIcon,
     Account as AccountIcon,
@@ -49,6 +51,12 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+const SHREK = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+`;
+
 export default () => {
     const classes = useStyles();
     const history = useHistory();
@@ -57,7 +65,10 @@ export default () => {
         <>
             <AppBar position="fixed" color="primary" className={classes.appBar}>
                 <Toolbar>
-                    <IconButton edge="start" color="inherit" aria-label="open drawer" onClick={() => history.push('/chat')}>
+                    {/* <SHREK> */}
+
+                    <div className={classes.grow} />
+                    <IconButton style={{ marginRight: '2em' }} edge="start" color="inherit" aria-label="open drawer" onClick={() => history.push('/chat')}>
                         <ChatIcon />
                     </IconButton>
                     <Fab color="secondary" aria-label="add" className={classes.fabButton}>
@@ -65,13 +76,14 @@ export default () => {
                         {/* <img src={HomeIcon} style={{ color: '#EE357B' }} /> */}
                         <HomeIcon />
                     </Fab>
-                    {/* <div className={classes.grow} /> */}
-                    <IconButton color="inherit" onClick={() => history.push("/")}>
+                    {/* <IconButton color="inherit" onClick={() => history.push("/")}>
                         <SearchIcon />
-                    </IconButton>
+                    </IconButton> */}
                     <IconButton edge="end" color="inherit" onClick={() => history.push("/profile")}>
                         <AccountIcon />
                     </IconButton>
+                    <div className={classes.grow} />
+                    {/* </SHREK> */}
                 </Toolbar>
             </AppBar>
         </>
