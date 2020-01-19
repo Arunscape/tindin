@@ -20,14 +20,11 @@ const useStyles = makeStyles({
         display: 'flex',
         flexFlow: 'column nowrap',
         justifyContent: 'center',
-        maxWidth: '80%',
-        // minHeight: '60%'
-        minWidth: '60%',
-        minHeight: '20%',
 
     },
     media: {
-        height: 140,
+        minHeight: '50vh',
+        minWidth: '80vw'
     },
 });
 
