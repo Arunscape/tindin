@@ -16,7 +16,12 @@
                    (let ((id (or (db:swiped-on-you uid)
                                  (db:unswiped uid))))
                      (if id
-                         `(("id" . ,id))
+                         (let ((user (db:get-user id)))
+                           (list
+                             (cons "name" (getf user :|uname|))
+                             (cons "id" (getf user :|uid|))
+                             (cons "bio" (getf user :|bio|))
+                             (cons "photos" (getf user :|photos|))))
                          nil)))))
 
             '(403 () ("oi! log in ya bastard!"))))))
@@ -29,7 +34,7 @@
                 (db:swipe uid
                           (cdr (assoc "swipee" params :test #'string=))
                           (cdr (assoc "dir" params :test #'string=)))
-                '(200 nil "thanks for the swipe mate"))
+                '(200 nil ("thanks for the swipe mate")))
             '(403 () ("faaaaaack off m8"))))))
 
 
