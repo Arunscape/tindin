@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { useHistory } from 'react-router';
 import useGlobalState from '../useGlobalState';
-import axios from 'axios'
 import CONFIG from '../config'
 
 const useStyles = makeStyles(theme => ({
@@ -25,10 +24,14 @@ export default () => {
 
 
     const checkemail = async () => {
+        console.log(email)
         return fetch(CONFIG.API + '/checkemail',
             {
                 method: 'post',
-                body: { email },
+                body: JSON.stringify({ email }),
+                headers: {
+                    "Content-Type": "application/json"
+                },
 
             }).catch(e => {
                 console.log("HELLO" + e);
@@ -46,12 +49,14 @@ export default () => {
 
             if (res.status === 404) {
                 history.push('/signup')
+                console.log("I got 404")
             }
 
             if (res.status === 204) {
+                setUser({ ...user, email })
                 history.push('/signin-verify')
+                console.log("I got 204")
             }
-            setUser({ ...user, email })
         }}>
             <TextField
                 // value={email}
@@ -60,7 +65,7 @@ export default () => {
                 label="email" />
             <button type="submit">Verify</button>
         </form>
-        {/* <div>{email}</div> */}
+        <div>{email}</div>
     </>
     );
 }
