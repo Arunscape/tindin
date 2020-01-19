@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import SearchIcon from '@material-ui/icons/Search';
+import HomeIcon from '@material-ui/icons/Home';
 
 import {
     ChatProcessing as ChatIcon,
@@ -43,6 +44,8 @@ const useStyles = makeStyles(theme => ({
         left: 0,
         right: 0,
         margin: '0 auto',
+        backgroundColor: 'white',
+        color: '#EE357B',
     },
 }));
 
@@ -58,7 +61,9 @@ export default () => {
                         <ChatIcon />
                     </IconButton>
                     <Fab color="secondary" aria-label="add" className={classes.fabButton}>
-                        <AddIcon />
+                        {/* <AddIcon /> */}
+                        {/* <img src={HomeIcon} style={{ color: '#EE357B' }} /> */}
+                        <HomeIcon />
                     </Fab>
                     {/* <div className={classes.grow} /> */}
                     <IconButton color="inherit" onClick={() => history.push("/")}>
