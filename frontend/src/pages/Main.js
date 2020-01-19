@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import useGlobalState from '../useGlobalState';
 
@@ -9,7 +9,7 @@ const SwipeArea = styled.div`
     height: 100%;
     `;
 
-export default () => {
+const Main = () => {
 
     const [touchStart, setTouchStart] = useState(null);
     const [touchEnd, setTouchEnd] = useState(null);
@@ -48,10 +48,11 @@ export default () => {
             return;
         }
 
-        setAngle(Math.atan2(touchEnd.y - touchStart.y, touchEnd.x - touchStart.x));
+        const toDegrees = (x) => (x > 0 ? x : (2 * Math.PI + x)) * 360 / (2 * Math.PI)
+        setAngle(toDegrees(-Math.atan2(touchEnd.y - touchStart.y, touchEnd.x - touchStart.x)));
 
         console.log("ANGLE: " + angle)
-    }, touchStart, touchEnd)
+    }, [touchStart, touchEnd])
 
     useEffect(() => {
         window.addEventListener('touchstart', handleTouchStart);
@@ -79,3 +80,5 @@ export default () => {
     </SwipeArea>
 
 }
+
+export default Main;
