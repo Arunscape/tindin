@@ -6,7 +6,7 @@ import Tindinlogo from '../assets/tindinlogo.svg';
 
 const Centering = styled.div`
 margin: 2rem;
-margin-top:4rem;
+margin-top:0;
 background-color: white;
 height: 60vh;
 
