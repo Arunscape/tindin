@@ -42,22 +42,48 @@ const Main = () => {
     const { user, setUser } = useGlobalState();
     const history = useHistory();
 
-    const [matches, setMatches] = useState(null);
+    const [swipee, setSwipee] = useState(null);
 
+
+    // useEffect(() => {
+    //     fetch(CONFIG.API + '/matches',
+    //         {
+    //             method: 'get',
+    //             headers: {
+    //                 "Content-Type": "application/json",
+    //                 "Authorization": user.tok,
+    //             },
+
+    //         }).then(res => res.json())
+    //         .then(data => {
+    //             console.log("MATCHES")
+    //             console.log(data)
+    //         }).catch(e => {
+    //             console.log("HELLO" + e);
+
+    //         })
+
+    // }
+
+    //     , [])
 
     useEffect(() => {
-        fetch(CONFIG.API + '/matches',
+
+        console.log(user.tok)
+        fetch(CONFIG.API + '/next-profile',
             {
                 method: 'get',
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": user.tok,
+                    // "Content-Type": "application/json",
+                    "Authorization": localStorage.getItem('userToken'),
                 },
 
             }).then(res => res.json())
             .then(data => {
-                console.log("MATCHES")
+                console.log("NEXT PROFILE")
                 console.log(data)
+
+                setSwipee(data);
             }).catch(e => {
                 console.log("HELLO" + e);
 
@@ -92,6 +118,9 @@ const Main = () => {
             y,
         });
         console.log("TOUCHEND: ", JSON.stringify(touchEnd));
+
+
+
     }
 
     useEffect(() => {
@@ -104,6 +133,29 @@ const Main = () => {
         setAngle(toDegrees(-Math.atan2(touchEnd.y - touchStart.y, touchEnd.x - touchStart.x)));
 
         console.log("ANGLE: " + angle)
+
+        fetch(CONFIG.API + '/swipe',
+            {
+                method: 'post',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": user.tok,
+                },
+                body: JSON.stringify({
+                    swipee,
+                    dir: angle,
+                })
+
+            }).then(res => res.json())
+            .then(data => {
+                console.log("MATCHES")
+                console.log(data)
+            }).catch(e => {
+                console.log("HELLO" + e);
+
+            })
+
+
     }, [touchStart, touchEnd])
 
     useEffect(() => {
@@ -121,6 +173,10 @@ const Main = () => {
         const tok = localStorage.getItem('userToken');
         if (tok !== null) {
             setUser({ ...user, tok })
+            console.log("SETTING USER TOKEN TO")
+            console.log(user.tok)
+            console.log(tok)
+            console.log({ ...user, tok })
             return;
         }
 
@@ -138,6 +194,7 @@ const Main = () => {
                 <div>{JSON.stringify(touchEnd)}</div>
                 <div>Angle</div>
                 <div>{angle}</div>
+                <div>{user.tok}</div>
                 <Card className={classes.card}>
                     <CardActionArea>
                         <CardMedia
