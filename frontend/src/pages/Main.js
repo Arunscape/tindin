@@ -5,12 +5,8 @@ import useGlobalState from '../useGlobalState';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-
 import styled from 'styled-components'
 
 import CONFIG from '../config'
@@ -61,29 +57,6 @@ const Main = () => {
 
     const [swipee, setSwipee] = useState(null);
 
-
-    // useEffect(() => {
-    //     fetch(CONFIG.API + '/matches',
-    //         {
-    //             method: 'get',
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": user.tok,
-    //             },
-
-    //         }).then(res => res.json())
-    //         .then(data => {
-    //             console.log("MATCHES")
-    //             console.log(data)
-    //         }).catch(e => {
-    //             console.log("HELLO" + e);
-
-    //         })
-
-    // }
-
-    //     , [])
-
     useEffect(() => {
 
         console.log(user.tok)
@@ -107,35 +80,7 @@ const Main = () => {
         , [])
 
 
-    const handleTouchStart = (e) => {
-        // console.log(e)
-        e.preventDefault();
-        const x = e.touches[0].screenX;
-        const y = e.touches[0].screenY;
-        setTouchStart({
-            x,
-            y,
-        });
-        console.log("TOUCHSTART: ", x, y);
-        if (touchStart == null) {
-            console.log("WHY THE FUCK IS IT NULL?")
-        }
-    }
-    const handleTouchEnd = (e) => {
-        // console.log(e)
-        e.preventDefault();
-        const x = e.changedTouches[0].screenX;
-        const y = e.changedTouches[0].screenY;
-        setTouchEnd({
-            x,
-            y,
-        });
-        console.log("TOUCHEND: ", JSON.stringify(touchEnd));
-        window.location.reload();
 
-
-
-    }
 
     useEffect(() => {
 
@@ -175,9 +120,28 @@ const Main = () => {
             })
 
 
-    }, [touchStart, touchEnd])
+    }, [touchEnd])
 
     useEffect(() => {
+        const handleTouchStart = (e) => {
+            e.preventDefault();
+            setTouchStart({
+                x: e.touches[0].screenX,
+                y: e.touches[0].screenY,
+            });
+        }
+        const handleTouchEnd = (e) => {
+            e.preventDefault();
+            const x = e.changedTouches[0].screenX;
+            const y = e.changedTouches[0].screenY;
+            setTouchEnd({
+                x,
+                y,
+            });
+            // todo just call the next profile api and update that way
+            window.location.reload();
+        }
+
         window.addEventListener('touchstart', handleTouchStart);
         window.addEventListener('touchend', handleTouchEnd);
 
@@ -188,21 +152,13 @@ const Main = () => {
     }, []);
 
     useEffect(() => {
-        // run before page loads
         const tok = localStorage.getItem('userToken');
         if (tok !== null) {
             setUser({ ...user, tok })
-            console.log("SETTING USER TOKEN TO")
-            console.log(user.tok)
-            console.log(tok)
-            console.log({ ...user, tok })
             return;
         }
-
         history.push('/signin');
-
     }, [])
-    console.log(swipee)
 
     return <>
         {user.tok && (
