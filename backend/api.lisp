@@ -23,13 +23,14 @@
            :access-control-allow-headers "Authorization, *")
           nil)
         (let ((r (funcall app env)))
-          (setf (cadr r) (append '(:access-control-allow-methods
-                                   "GET, POST, PUT, DELETE, OPTIONS, HEAD"
-                                   :access-control-allow-origin "*"
-                                   :access-control-allow-headers
-                                   "Authorization, *")
-                                 (cadr r)))
-          r))))
+          (list (car r)
+                (append '(:access-control-allow-methods
+                          "GET, POST, PUT, DELETE, OPTIONS, HEAD"
+                          :access-control-allow-origin "*"
+                          :access-control-allow-headers
+                          "Authorization, *")
+                        (cadr r))
+                (caddr r))))))
 
 (defvar *static-app*
   (lack:builder
