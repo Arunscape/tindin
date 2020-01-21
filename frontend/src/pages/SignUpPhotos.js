@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
 import useGlobalState from '../useGlobalState';
 import styled from 'styled-components';
@@ -25,7 +25,7 @@ height: 1000px;
 background-size: cover;
 background-repeat: no-repeat;
 background-position: center;`
-;
+    ;
 const Title = styled.div`
 padding 1rem;
 font: bold italic 7vw Open Sans;
@@ -70,29 +70,28 @@ export default function UploadButtons() {
 
     return (
         <Base>
-        <YEET>
-           
-            <Meme>
-                <Image src={Icon} />
-                <Title>Upload Photos</Title>
-                <Text class="banana" placeholder="Insert link" onChange={(e) => window.images[0] = e.target.value} />
-                <Text class="banana" placeholder="Insert link" onChange={(e) => window.images[1] = e.target.value} />
-                <Text class="banana" placeholder="Insert link" onChange={(e) => window.images[2] = e.target.value} />
-                <Text class="banana" placeholder="Insert link" onChange={(e) => window.images[3] = e.target.value} />
-                <Text class="banana" placeholder="Insert link" onChange={(e) => window.images[4] = e.target.value} />
+            <YEET>
+
+                <Meme>
+                    <Image src={Icon} />
+                    <Title>Upload Photos</Title>
+                    <Text class="banana" placeholder="Insert link" onChange={(e) => window.images[0] = e.target.value} />
+                    <Text class="banana" placeholder="Insert link" onChange={(e) => window.images[1] = e.target.value} />
+                    <Text class="banana" placeholder="Insert link" onChange={(e) => window.images[2] = e.target.value} />
+                    <Text class="banana" placeholder="Insert link" onChange={(e) => window.images[3] = e.target.value} />
+                    <Text class="banana" placeholder="Insert link" onChange={(e) => window.images[4] = e.target.value} />
 
 
-            <Button onClick={() => {
+                    <Button onClick={() => {
 
-                window.isForSignup = true;
-                // window.images = images;
+                        window.isForSignup = true;
 
-                history.push("/signin-verify");
-                setLoggedIn(true);
+                        history.push("/signin-verify");
+                        setLoggedIn(true);
 
-            }}>Next</Button>
-            </Meme>
-        </YEET>
+                    }}>Next</Button>
+                </Meme>
+            </YEET>
         </Base>
     );
 }

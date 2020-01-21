@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router';
-import useGlobalState from '../useGlobalState';
 import styled from 'styled-components';
-import Heart from '../assets/altheart.svg';
 import Icon from '../assets/icon1.svg';
 
 const Background = styled.div`
@@ -78,25 +76,25 @@ export default () => {
 
     return (
         <Base>
-        <Fixbackground>
-        <Background>
-        <Image src={Icon} />
-        <Title>Write up a bio!</Title>
-        <Info>Showcase your date and/or hireability to the world! You have a character limit and only one place to showcase, so try your best to come up with the best summary of what you have to offer as you can! </Info>
-        <Form noValidate autoComplete="on" onSubmit={() => {
-            history.push("/signup-photos");
-        }}>
-            <Bio
-                    onChange={(e) => window.bio = e.target.value}
-                    id="standard-basic"
-                    label="Bio"
-                    maxlength="300"
-                    required
-            />
-            <Button type="submit">Verify</Button>
-        </Form>
-    </Background>
-    </Fixbackground>
-    </Base>
+            <Fixbackground>
+                <Background>
+                    <Image src={Icon} />
+                    <Title>Write up a bio!</Title>
+                    <Info>Showcase your date and/or hireability to the world! You have a character limit and only one place to showcase, so try your best to come up with the best summary of what you have to offer as you can! </Info>
+                    <Form noValidate autoComplete="on" onSubmit={() => {
+                        history.push("/signup-photos");
+                    }}>
+                        <Bio
+                            onChange={(e) => window.bio = e.target.value}
+                            id="standard-basic"
+                            label="Bio"
+                            maxlength="300"
+                            required
+                        />
+                        <Button type="submit">Verify</Button>
+                    </Form>
+                </Background>
+            </Fixbackground>
+        </Base>
     );
 }

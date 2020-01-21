@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
-import useGlobalState from '../useGlobalState';
 import styled from 'styled-components';
 import Heart from '../assets/altheart.svg';
 

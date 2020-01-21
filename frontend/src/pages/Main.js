@@ -24,8 +24,6 @@ const useStyles = makeStyles({
     },
 });
 
-
-
 const SwipeArea = styled.div`
 display: flex;
 justify-content: center;
@@ -35,16 +33,16 @@ width: 100vw;
 background-image: linear-gradient(#EE357B, #2768B3);
 color: white;
 text-align: center;
-
-`;
+font: bold 5vw Open Sans;
+    `;
 
 const Name = styled.div`
-    font: bold 5vw Open Sans;
-    `;
+font: bold 5vw Open Sans;
+`;
 
 const Description = styled.div`
-    font:  2.5vw Open Sans;
-    `;
+font: 2.5vw Open Sans;
+`;
 
 const Main = () => {
     const classes = useStyles();

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import { useHistory } from 'react-router-dom';
 import useGlobalState from '../useGlobalState';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -16,7 +15,7 @@ const useStyles = makeStyles(theme => ({
         },
         backgroundImage: 'linear-gradient(#EE357B, #2768B3)',
         height: '100vh'
-        
+
     },
 }));
 
@@ -37,7 +36,6 @@ export default () => {
 
     const { user, setUser } = useGlobalState();
 
-    // const [tempToken, setTempToken] = useState(null);
     let timer;
 
     const history = useHistory();
@@ -118,9 +116,7 @@ export default () => {
         <Frame className={classes.root}>
             <Text>Verifying...</Text>
 
-        <CircularProgress variant="indeterminate" style={{color: 'white'}}/>
-            {/* {valid === 'loggedin' && <Redirect to="/" />}
-            {valid === 'needssignup' && <Redirect to="/signup" />} */}
+            <CircularProgress variant="indeterminate" style={{ color: 'white' }} />
         </Frame>
     );
 }

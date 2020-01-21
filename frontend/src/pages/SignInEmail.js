@@ -51,55 +51,53 @@ margin: 2rem;`
 
 export default () => {
 
-    const [email, setEmail] = useState(null);
-    const history = useHistory();
+  const [email, setEmail] = useState(null);
+  const history = useHistory();
 
-    const { user, setUser } = useGlobalState();
-
-
-    const checkemail = async () => {
-        console.log(email)
-        window.email = email
-        return fetch(CONFIG.API + '/checkemail',
-            {
-                method: 'post',
-                body: JSON.stringify({ email }),
-                headers: {
-                    "Content-Type": "application/json"
-                },
-            })
-    }
+  const { user, setUser } = useGlobalState();
 
 
-    return (
-        <Background>
-        <Image src={Heart} />
-        <Title>Enter your email</Title>
-          <Form noValidate autoComplete="on" action="javascript:void(0);" onSubmit={async () => {
-            // history.push("/signup-bio");
-            const res = await checkemail();
-            // console.log("REEEEEE: " + res.status);status
+  const checkemail = async () => {
+    console.log(email)
+    window.email = email
+    return fetch(CONFIG.API + '/checkemail',
+      {
+        method: 'post',
+        body: JSON.stringify({ email }),
+        headers: {
+          "Content-Type": "application/json"
+        },
+      })
+  }
 
-            if (res) {
-              if (res.status === 404) {
-                history.push('/signup')
-                console.log("I got 404")
-              }
 
-              if (res.status === 204) {
-                setUser({ ...user, email })
-                history.push('/signin-verify')
-                console.log("I got 204")
-              }
-            }
-        }}>
-            <Text
-                // value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                id="standard-basic"
-                label="email" />
-            <Button type="submit">Verify</Button>
-        </Form>
+  return (
+    <Background>
+      <Image src={Heart} />
+      <Title>Enter your email</Title>
+      <Form noValidate autoComplete="on" action="javascript:void(0);" onSubmit={async () => {
+        const res = await checkemail();
+
+        if (res) {
+          if (res.status === 404) {
+            history.push('/signup')
+            console.log("I got 404")
+          }
+
+          if (res.status === 204) {
+            setUser({ ...user, email })
+            history.push('/signin-verify')
+            console.log("I got 204")
+          }
+        }
+      }}>
+        <Text
+          // value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          id="standard-basic"
+          label="email" />
+        <Button type="submit">Verify</Button>
+      </Form>
     </Background>
-    );
+  );
 }
