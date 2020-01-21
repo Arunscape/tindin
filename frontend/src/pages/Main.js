@@ -107,14 +107,7 @@ const Main = () => {
                 })
 
             }).then(res => res.json())
-            .then(data => {
-                console.log("MATCHES")
-                console.log(data)
-                window.location.reload();
-            }).catch(e => {
-                console.log("HELLO" + e);
 
-            })
         getNextProfile();
         setSwipee(null);
 
