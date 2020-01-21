@@ -57,27 +57,22 @@ const Main = () => {
 
     const [swipee, setSwipee] = useState(null);
 
-    useEffect(() => {
-
-        console.log(user.tok)
-        fetch(CONFIG.API + '/next-profile',
+    const getNextProfile = async () => {
+        const data = await fetch(CONFIG.API + '/next-profile',
             {
                 method: 'get',
                 headers: {
-                    // "Content-Type": "application/json",
                     "Authorization": localStorage.getItem('userToken'),
                 },
 
-            }).then(res => res.json())
-            .then(data => {
-                console.log("NEXT PROFILE")
-                console.log(data)
-                setSwipee(data);
-            }).catch(e => {
-                console.log("HELLO" + e);
-            })
+            }).then(res => res.json());
+
+        setSwipee(data);
     }
-        , [])
+
+    useEffect(() => {
+        getNextProfile();
+    }, [])
 
 
 
@@ -118,6 +113,7 @@ const Main = () => {
                 console.log("HELLO" + e);
 
             })
+        getNextProfile();
 
 
     }, [touchEnd])
@@ -138,8 +134,7 @@ const Main = () => {
                 x,
                 y,
             });
-            // todo just call the next profile api and update that way
-            window.location.reload();
+            // getNextProfile();
         }
 
         window.addEventListener('touchstart', handleTouchStart);
@@ -167,7 +162,7 @@ const Main = () => {
                     <CardActionArea>
                         <CardMedia
                             className={classes.media}
-                            image={swipee && swipee.photos[0]}
+                            image={swipee && swipee.photos && swipee.photos[0]}
                             title="Contemplative Reptile"
                         />
                         <CardContent>
