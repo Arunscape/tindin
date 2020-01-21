@@ -33,6 +33,8 @@ align-items: center;
 height: 100vh;
 width: 100vw;
 background-image: linear-gradient(#EE357B, #2768B3);
+color: white;
+text-align: center;
 
 `;
 
@@ -79,7 +81,7 @@ const Main = () => {
 
     useEffect(() => {
 
-        if (touchStart == null || touchEnd == null) {
+        if (touchStart == null || touchEnd == null || Math.abs(touchStart.x - touchEnd.x) < 50 || Math.abs(touchStart.y - touchEnd.y) < 50) {
             return;
         }
 
@@ -114,6 +116,7 @@ const Main = () => {
 
             })
         getNextProfile();
+        setSwipee(null);
 
 
     }, [touchEnd])
@@ -158,7 +161,7 @@ const Main = () => {
     return <>
         {user.tok && (
             <SwipeArea>
-                <Card className={classes.card}>
+                {swipee ? (<Card className={classes.card}>
                     <CardActionArea>
                         <CardMedia
                             className={classes.media}
@@ -174,7 +177,7 @@ const Main = () => {
                             </Description>
                         </CardContent>
                     </CardActionArea>
-                </Card>
+                </Card>) : 'OOF, no new matches for you 😢'}
 
             </SwipeArea>)}
     </>
