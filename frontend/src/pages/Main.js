@@ -16,7 +16,8 @@ const useStyles = makeStyles({
         display: 'flex',
         flexFlow: 'column nowrap',
         justifyContent: 'center',
-
+        position: 'absolute',
+        overflow: 'visible',
     },
     media: {
         minHeight: '50vh',
@@ -34,6 +35,8 @@ background-image: linear-gradient(#EE357B, #2768B3);
 color: white;
 text-align: center;
 font: bold 5vw Open Sans;
+overflow: hidden;
+position: fixed;
     `;
 
 const Name = styled.div`
@@ -47,8 +50,10 @@ font: 2.5vw Open Sans;
 const Main = () => {
     const classes = useStyles();
 
-    const [touchStart, setTouchStart] = useState({ x: 0, y: 0 });
-    const [touchEnd, setTouchEnd] = useState({ x: 0, y: 0 });
+    const [touchStart, setTouchStart] = useState({ x: null, y: null });
+    const [touchEnd, setTouchEnd] = useState({ x: null, y: null });
+
+    const [touchPos, setTouchPos] = useState({ x: null, y: null });
 
     const [angle, setAngle] = useState(360);
 
@@ -113,30 +118,44 @@ const Main = () => {
     }, [touchEnd])
 
     useEffect(() => {
-        const handleTouchStart = (e) => {
-            e.preventDefault();
-            setTouchStart({
-                x: e.touches[0].screenX,
-                y: e.touches[0].screenY,
-            });
-        }
-        const handleTouchEnd = (e) => {
-            e.preventDefault();
-            const x = e.changedTouches[0].screenX;
-            const y = e.changedTouches[0].screenY;
-            setTouchEnd({
-                x,
-                y,
-            });
-            // getNextProfile();
+        const handleTouchStart = (e) => setTouchStart({
+            x: e.touches[0].screenX,
+            y: e.touches[0].screenY,
+        });
+
+        const handleTouchEnd = (e) => setTouchEnd({
+            x: e.changedTouches[0].screenX,
+            y: e.changedTouches[0].screenY
+        });
+
+        const handleMove = (e) => {
+
+            const x = e.touches[0].clientX;
+            const y = e.touches[0].clientY;
+
+            const el = document.getElementById('draggable-card');
+
+            const widthOffset = el.offsetWidth / 2;
+            const heightOffset = el.offsetHeight / 2;
+
+            console.log("ACTUAL: ", x, y)
+
+            console.log(widthOffset, heightOffset);
+
+            setTouchPos({
+                x: x - widthOffset,
+                y: y - heightOffset
+            })
         }
 
         window.addEventListener('touchstart', handleTouchStart);
         window.addEventListener('touchend', handleTouchEnd);
+        window.addEventListener('touchmove', handleMove);
 
         return () => {
             window.removeEventListener('touchstart', handleTouchStart);
             window.removeEventListener('touchend', handleTouchEnd);
+            window.removeEventListener('touchmove', handleMove);
         };
     }, []);
 
@@ -149,11 +168,20 @@ const Main = () => {
         history.push('/signin');
     }, [])
 
+    // useEffect(() => {
+    //     console.log(touchPos)
+    // }, [touchPos])
+
     return <>
         {user.tok && (
             <SwipeArea>
-                {swipee ? (<Card className={classes.card}>
-                    <CardActionArea>
+                {swipee ? (
+                    <Card
+                        className={classes.card}
+                        style={{ top: touchPos.y, left: touchPos.x }}
+                        // style={{ top: 50, left: 50 }}
+                        id="draggable-card"
+                    >
                         <CardMedia
                             className={classes.media}
                             image={swipee && swipee.photos && swipee.photos[0]}
@@ -167,8 +195,7 @@ const Main = () => {
                                 {swipee && swipee.bio}
                             </Description>
                         </CardContent>
-                    </CardActionArea>
-                </Card>) : 'OOF, no new matches for you 😢'}
+                    </Card>) : 'OOF, no new matches for you 😢'}
 
             </SwipeArea>)}
     </>
