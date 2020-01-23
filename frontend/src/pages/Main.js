@@ -2,31 +2,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import useGlobalState from '../useGlobalState';
 
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardSubtitle, IonCardTitle, IonContent, IonIcon, IonItem, IonLabel, IonImg } from '@ionic/react';
 import styled from 'styled-components'
 
 import CONFIG from '../config'
 
-const useStyles = makeStyles({
-    card: {
-        display: 'flex',
-        flexFlow: 'column nowrap',
-        justifyContent: 'center',
-        position: 'absolute',
-        overflow: 'visible',
-        // '&:hover': {
-        //     boxShadow: '-1px 10px 29px 0px rgba(0,0,0,0.8)'
-        // }
-        boxShadow: '-1px 10px 29px 0px rgba(0,0,0,0.8)',
-    },
-    media: {
-        minHeight: '50vh',
-        minWidth: '80vw'
-    },
-});
+const Card = styled(IonCard)`
+background: white;
+max-height: 70%;
+`;
+
+const CardImage = styled.img`
+// min-height: 50vh;
+// min-width: 80vw;
+// max-width: 100%;
+`;
 
 const SwipeArea = styled.div`
 display: flex;
@@ -42,13 +33,13 @@ overflow: hidden;
 position: fixed;
     `;
 
-const Name = styled.div`
-font: bold 5vw Open Sans;
-`;
+// const Name = styled.div`
+// font: bold 5vw Open Sans;
+// `;
 
-const Description = styled.div`
-font: 2.5vw Open Sans;
-`;
+// const Description = styled.div`
+// font: 2.5vw Open Sans;
+// `;
 
 const AngleDisplay = styled.div`
 font: 2.5vw Open Sans;
@@ -58,7 +49,7 @@ left: 0;
 `;
 
 const Main = () => {
-    const classes = useStyles();
+    // const classes = useStyles();
 
     const [touchStart, setTouchStart] = useState({ x: null, y: null, offset: { x: null, y: null } });
     const [touchEnd, setTouchEnd] = useState({ x: null, y: null });
@@ -98,7 +89,7 @@ const Main = () => {
 
     useEffect(() => {
 
-        if (touchStart == null || touchEnd == null || Math.abs(touchStart.x - touchEnd.x) + Math.abs(touchStart.y - touchEnd.y) < 50) {
+        if (touchStart == null || touchEnd == null || Math.abs(touchStart.x - touchEnd.x) + Math.abs(touchStart.y - touchEnd.y) < 100) {
             return;
         }
 
@@ -139,14 +130,14 @@ const Main = () => {
         history.push('/signin');
     }, [])
 
-    return <>
+    return <IonContent>
 
         {user.tok && (
             <SwipeArea ref={swipeAreaRef}>
                 <AngleDisplay>{angle}</AngleDisplay>
                 {swipee ? (
                     <Card
-                        className={classes.card}
+                        // className={classes.card}
                         style={touchPos ? { top: touchPos.y, left: touchPos.x } : null}
                         ref={cardRef}
                         onTouchStart={(e) => {
@@ -185,23 +176,25 @@ const Main = () => {
                             });
                         }}
                     >
-                        <CardMedia
-                            className={classes.media}
-                            image={swipee && swipee.photos && swipee.photos[0]}
+                        <CardImage
+                            // className={classes.media}
+                            src={swipee && swipee.photos && swipee.photos[0]}
                             title="Contemplative Reptile"
                         />
-                        <CardContent>
-                            <Name gutterBottom variant="h5" component="h2">
-                                {swipee && swipee.name}
-                            </Name>
-                            <Description variant="body2" color="textSecondary" component="p">
+                        <IonCardContent>
+                            <IonCardHeader>
+                                <IonCardTitle>
+                                    {swipee && swipee.name}
+                                </IonCardTitle>
+                            </IonCardHeader>
+                            <IonCardContent>
                                 {swipee && swipee.bio}
-                            </Description>
-                        </CardContent>
+                            </IonCardContent>
+                        </IonCardContent>
                     </Card>) : 'OOF, no new matches for you 😢'}
 
             </SwipeArea>)}
-    </>
+    </IonContent>
 
 
 }
