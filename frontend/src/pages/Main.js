@@ -50,6 +50,13 @@ const Description = styled.div`
 font: 2.5vw Open Sans;
 `;
 
+const AngleDisplay = styled.div`
+font: 2.5vw Open Sans;
+position: absolute;
+top: 0;
+left: 0;
+`;
+
 const Main = () => {
     const classes = useStyles();
 
@@ -59,7 +66,7 @@ const Main = () => {
     const [touchPos, setTouchPos] = useState({ x: null, y: null });
 
 
-    const [angle, setAngle] = useState(360);
+    const [angle, setAngle] = useState(null);
 
     const { user, setUser } = useGlobalState();
     const history = useHistory();
@@ -95,9 +102,6 @@ const Main = () => {
             return;
         }
 
-        const toDegrees = (x) => (x > 0 ? x : (2 * Math.PI + x)) * 360 / (2 * Math.PI)
-        setAngle(toDegrees(-Math.atan2(touchEnd.y - touchStart.y, touchEnd.x - touchStart.x)));
-
         if (swipee == null || angle == null) {
             return;
         }
@@ -121,7 +125,6 @@ const Main = () => {
         setTouchStart(null);
         setTouchPos(null)
         setTouchEnd(null);
-        setAngle(null)
 
     }, [touchEnd])
 
@@ -136,9 +139,12 @@ const Main = () => {
     }, [])
 
     // console.log(swipeAreaRef)
+    console.log(angle)
     return <>
+
         {user.tok && (
             <SwipeArea ref={swipeAreaRef}>
+                <AngleDisplay>{angle}</AngleDisplay>
                 {swipee ? (
                     <Card
                         className={classes.card}
@@ -169,6 +175,9 @@ const Main = () => {
                                 x: x - offset.x,
                                 y: y - offset.y,
                             })
+
+                            const toDegrees = (x) => (x > 0 ? x : (2 * Math.PI + x)) * 360 / (2 * Math.PI)
+                            setAngle(toDegrees(-Math.atan2(y - touchStart.y, x - touchStart.x)));
                         }}
                         onTouchEnd={(e) => {
                             setTouchEnd({
