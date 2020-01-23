@@ -138,8 +138,6 @@ const Main = () => {
         history.push('/signin');
     }, [])
 
-    // console.log(swipeAreaRef)
-    console.log(angle)
     return <>
 
         {user.tok && (
