@@ -32,7 +32,7 @@ const Chat = React.lazy(() => import('./pages/Chat'))
 const Profile = React.lazy(() => import('./pages/Profile'))
 
 
-const App = () => {
+const App: React.FC = () => {
 
   const { user } = useGlobalState();
 

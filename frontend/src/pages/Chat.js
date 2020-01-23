@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import BottomBar from '../components/BottomBar.js'
+import BottomBar from '../components/BottomBar'
 import config from '../config.js'
 import './Chat.css';
 

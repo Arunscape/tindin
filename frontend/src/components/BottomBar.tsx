@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default () => {
+const BottomBar = () => {
     const classes = useStyles();
     const history = useHistory();
 
@@ -71,3 +71,5 @@ export default () => {
         </>
     );
 }
+
+export default BottomBar;
