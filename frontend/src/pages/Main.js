@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import useGlobalState from '../useGlobalState';
 
@@ -18,6 +18,10 @@ const useStyles = makeStyles({
         justifyContent: 'center',
         position: 'absolute',
         overflow: 'visible',
+        // '&:hover': {
+        //     boxShadow: '-1px 10px 29px 0px rgba(0,0,0,0.8)'
+        // }
+        boxShadow: '-1px 10px 29px 0px rgba(0,0,0,0.8)',
     },
     media: {
         minHeight: '50vh',
@@ -63,6 +67,10 @@ const Main = () => {
 
     const [swipee, setSwipee] = useState(null);
 
+    const [offset, setOffset] = useState({ x: null, y: null });
+
+    const cardRef = useRef(null);
+
     const getNextProfile = async () => {
         const data = await fetch(CONFIG.API + '/next-profile',
             {
@@ -80,12 +88,9 @@ const Main = () => {
         getNextProfile();
     }, [])
 
-
-
-
     useEffect(() => {
 
-        if (touchStart == null || touchEnd == null || Math.abs(touchStart.x - touchEnd.x) < 50 || Math.abs(touchStart.y - touchEnd.y) < 50) {
+        if (touchStart == null || touchEnd == null || Math.abs(touchStart.x - touchEnd.x) < 100 || Math.abs(touchStart.y - touchEnd.y) < 100) {
             return;
         }
 
@@ -114,71 +119,14 @@ const Main = () => {
 
         getNextProfile();
         setSwipee(null);
+        setTouchStart(null);
+        setTouchPos(null)
+        setTouchEnd(null);
+        setAngle(null)
 
 
     }, [touchEnd])
 
-    useEffect(() => {
-
-        let offset;
-
-        const handleTouchStart = (e) => {
-
-            console.log(e)
-            const x = e.touches[0].clientX;
-            const y = e.touches[0].clientY;
-
-            const el = document.getElementById('draggable-card');
-
-            // const offset = {
-            //     x: x - el.offsetLeft,
-            //     y: y - el.offsetTop,
-            // }
-
-            offset = {
-                x: x - el.offsetLeft,
-                y: y - el.offsetTop,
-            }
-
-
-            setTouchStart({ x, y, offset });
-        }
-
-        const handleTouchEnd = (e) => setTouchEnd({
-            x: e.changedTouches[0].screenX,
-            y: e.changedTouches[0].screenY
-        });
-
-        const handleMove = (e) => {
-
-            const x = e.touches[0].clientX;
-            const y = e.touches[0].clientY;
-
-            const el = document.getElementById('draggable-card');
-
-            const widthOffset = el.offsetWidth / 2;
-            const heightOffset = el.offsetHeight / 2;
-
-            console.log("ACTUAL: ", x, y)
-
-            console.log(x - touchStart.offset.x, y - touchStart.offset.y);
-
-            setTouchPos({
-                x: x - offset.x,
-                y: y - offset.y,
-            })
-        }
-
-        window.addEventListener('touchstart', handleTouchStart);
-        window.addEventListener('touchend', handleTouchEnd);
-        window.addEventListener('touchmove', handleMove);
-
-        return () => {
-            window.removeEventListener('touchstart', handleTouchStart);
-            window.removeEventListener('touchend', handleTouchEnd);
-            window.removeEventListener('touchmove', handleMove);
-        };
-    }, []);
 
     useEffect(() => {
         const tok = localStorage.getItem('userToken');
@@ -199,9 +147,40 @@ const Main = () => {
                 {swipee ? (
                     <Card
                         className={classes.card}
-                        style={{ top: touchPos.y, left: touchPos.x }}
-                        // style={{ top: 50, left: 50 }}
-                        id="draggable-card"
+                        style={touchPos ? { top: touchPos.y, left: touchPos.x } : null}
+                        ref={cardRef}
+                        onTouchStart={(e) => {
+                            const x = e.touches[0].clientX;
+                            const y = e.touches[0].clientY;
+
+                            setOffset({
+                                x: x - cardRef.current.offsetLeft,
+                                y: y - cardRef.current.offsetTop,
+                            })
+
+
+                            setTouchStart({ x, y, offset });
+                        }}
+                        onTouchMove={(e) => {
+
+                            const x = e.touches[0].clientX;
+                            const y = e.touches[0].clientY;
+
+                            console.log("ACTUAL: ", x, y)
+
+                            console.log(x - touchStart.offset.x, y - touchStart.offset.y);
+
+                            setTouchPos({
+                                x: x - offset.x,
+                                y: y - offset.y,
+                            })
+                        }}
+                        onTouchEnd={(e) => {
+                            setTouchEnd({
+                                x: e.changedTouches[0].clientX,
+                                y: e.changedTouches[0].clientY
+                            });
+                        }}
                     >
                         <CardMedia
                             className={classes.media}
