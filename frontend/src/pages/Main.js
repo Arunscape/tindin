@@ -125,6 +125,7 @@ const Main = () => {
         setTouchStart(null);
         setTouchPos(null)
         setTouchEnd(null);
+        setAngle(null)
 
     }, [touchEnd])
 
