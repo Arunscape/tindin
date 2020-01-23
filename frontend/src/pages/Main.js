@@ -4,7 +4,6 @@ import useGlobalState from '../useGlobalState';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import styled from 'styled-components'
@@ -97,8 +96,6 @@ const Main = () => {
         const toDegrees = (x) => (x > 0 ? x : (2 * Math.PI + x)) * 360 / (2 * Math.PI)
         setAngle(toDegrees(-Math.atan2(touchEnd.y - touchStart.y, touchEnd.x - touchStart.x)));
 
-        console.log("ANGLE: " + angle)
-
         if (swipee == null || angle == null) {
             return;
         }
@@ -124,7 +121,6 @@ const Main = () => {
         setTouchEnd(null);
         setAngle(null)
 
-
     }, [touchEnd])
 
 
@@ -136,10 +132,6 @@ const Main = () => {
         }
         history.push('/signin');
     }, [])
-
-    // useEffect(() => {
-    //     console.log(touchPos)
-    // }, [touchPos])
 
     return <>
         {user.tok && (
@@ -165,10 +157,6 @@ const Main = () => {
 
                             const x = e.touches[0].clientX;
                             const y = e.touches[0].clientY;
-
-                            console.log("ACTUAL: ", x, y)
-
-                            console.log(x - touchStart.offset.x, y - touchStart.offset.y);
 
                             setTouchPos({
                                 x: x - offset.x,
