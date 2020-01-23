@@ -50,10 +50,11 @@ font: 2.5vw Open Sans;
 const Main = () => {
     const classes = useStyles();
 
-    const [touchStart, setTouchStart] = useState({ x: null, y: null });
+    const [touchStart, setTouchStart] = useState({ x: null, y: null, offset: { x: null, y: null } });
     const [touchEnd, setTouchEnd] = useState({ x: null, y: null });
 
     const [touchPos, setTouchPos] = useState({ x: null, y: null });
+
 
     const [angle, setAngle] = useState(360);
 
@@ -118,10 +119,30 @@ const Main = () => {
     }, [touchEnd])
 
     useEffect(() => {
-        const handleTouchStart = (e) => setTouchStart({
-            x: e.touches[0].screenX,
-            y: e.touches[0].screenY,
-        });
+
+        let offset;
+
+        const handleTouchStart = (e) => {
+
+            console.log(e)
+            const x = e.touches[0].clientX;
+            const y = e.touches[0].clientY;
+
+            const el = document.getElementById('draggable-card');
+
+            // const offset = {
+            //     x: x - el.offsetLeft,
+            //     y: y - el.offsetTop,
+            // }
+
+            offset = {
+                x: x - el.offsetLeft,
+                y: y - el.offsetTop,
+            }
+
+
+            setTouchStart({ x, y, offset });
+        }
 
         const handleTouchEnd = (e) => setTouchEnd({
             x: e.changedTouches[0].screenX,
@@ -140,11 +161,11 @@ const Main = () => {
 
             console.log("ACTUAL: ", x, y)
 
-            console.log(widthOffset, heightOffset);
+            console.log(x - touchStart.offset.x, y - touchStart.offset.y);
 
             setTouchPos({
-                x: x - widthOffset,
-                y: y - heightOffset
+                x: x - offset.x,
+                y: y - offset.y,
             })
         }
 
