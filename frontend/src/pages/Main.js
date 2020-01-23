@@ -70,6 +70,8 @@ const Main = () => {
 
     const cardRef = useRef(null);
 
+    const swipeAreaRef = useRef(null);
+
     const getNextProfile = async () => {
         const data = await fetch(CONFIG.API + '/next-profile',
             {
@@ -89,7 +91,7 @@ const Main = () => {
 
     useEffect(() => {
 
-        if (touchStart == null || touchEnd == null || Math.abs(touchStart.x - touchEnd.x) < 100 || Math.abs(touchStart.y - touchEnd.y) < 100) {
+        if (touchStart == null || touchEnd == null || Math.abs(touchStart.x - touchEnd.x) + Math.abs(touchStart.y - touchEnd.y) < 50) {
             return;
         }
 
@@ -133,9 +135,10 @@ const Main = () => {
         history.push('/signin');
     }, [])
 
+    // console.log(swipeAreaRef)
     return <>
         {user.tok && (
-            <SwipeArea>
+            <SwipeArea ref={swipeAreaRef}>
                 {swipee ? (
                     <Card
                         className={classes.card}
@@ -157,6 +160,10 @@ const Main = () => {
 
                             const x = e.touches[0].clientX;
                             const y = e.touches[0].clientY;
+
+                            if (x < 0 || y < 0 || x > swipeAreaRef.current.clientWidth || y > swipeAreaRef.current.clientHeight) {
+                                return;
+                            }
 
                             setTouchPos({
                                 x: x - offset.x,
