@@ -49,9 +49,13 @@ const Chat = () => {
     const getUsers = async () => {
       fetch(`${config.API}/matches`, {
         headers: { 'Authorization': token },
-      }).then((response) => {
-        setScreen(null);
-      });
+        "Content-Type": "application/json",
+      })
+        // .then((response) => response.json())
+        .then(response => {
+          console.log(response)
+          setScreen(null);
+        });
     }
 
     getUsers();

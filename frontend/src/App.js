@@ -1,8 +1,23 @@
 import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { IonReactRouter as Router } from '@ionic/react-router';
+import { Route } from 'react-router-dom'
 import useGlobalState from './useGlobalState';
+import '@ionic/react/css/core.css';
+// /* Basic CSS for apps built with Ionic */
+// import '@ionic/react/css/normalize.css';
+// import '@ionic/react/css/structure.css';
+// import '@ionic/react/css/typography.css';
+
+// /* Optional CSS utils that can be commented out */
+// import '@ionic/react/css/padding.css';
+// import '@ionic/react/css/float-elements.css';
+// import '@ionic/react/css/text-alignment.css';
+// import '@ionic/react/css/text-transformation.css';
+// import '@ionic/react/css/flex-utils.css';
+// import '@ionic/react/css/display.css';
 
 import BottomBar from './components/BottomBar'
+import { IonRouterOutlet as Switch, IonApp } from '@ionic/react'
 
 
 
@@ -22,10 +37,9 @@ const App = () => {
   const { user } = useGlobalState();
 
   return (
-    <>
+    <IonApp>
       <Suspense fallback={<div>Loading...</div>}>
         <Router basename="/">
-
           <Switch>
             <Route path="/" exact component={Main} />
             <Route path="/signin" exact component={SignIn} />
@@ -40,7 +54,8 @@ const App = () => {
           {user.tok && <BottomBar />}
         </Router>
       </Suspense >
-    </>)
+    </IonApp>
+  )
 }
 
 
