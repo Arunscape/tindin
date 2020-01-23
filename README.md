@@ -1,7 +1,6 @@
 ![alt text](frontend/src/assets/tindinlogo.svg "Tindin")
 
-Have you ever swiped on a profile in >insert dating app here< but maybe also
-you want to hire that person like on >insert networking app here< ?
+Have you ever wanted to date someone AND potentially hire them? Well now you can do any linear combination of the two!
 
 ## FAQ
 - the angle at which you swipe tells the algorithm how much you'd want to hire
