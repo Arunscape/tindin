@@ -32,6 +32,7 @@ const SignUpBio = React.lazy(() => import('./pages/SignUpBio'))
 const SignUpPhotos = React.lazy(() => import('./pages/SignUpPhotos'))
 const Chat = React.lazy(() => import('./pages/Chat'))
 const Profile = React.lazy(() => import('./pages/Profile'))
+const ChatMessage = React.lazy(() => import('./pages/ChatMessage'));
 
 
 const App: React.FC = () => {
@@ -51,6 +52,7 @@ const App: React.FC = () => {
         <Route path="/signup-bio" exact component={SignUpBio} />
         <Route path="/signup-photos" exact component={SignUpPhotos} />
         <PrivateRoute path="/chat" exact component={Chat} />
+        <PrivateRoute path="/chat/:id" component={ChatMessage} />
         <PrivateRoute path="/profile" exact component={Profile} />
         {/* </Switch> */}
         {user.tok && <BottomBar />}
