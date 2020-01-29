@@ -14,9 +14,6 @@ max-height: 70%;
 `;
 
 const CardImage = styled.img`
-// min-height: 50vh;
-// min-width: 80vw;
-// max-width: 100%;
 `;
 
 const SwipeArea = styled.div`
@@ -146,7 +143,7 @@ const Main = () => {
 
                             setOffset({
                                 x: x - cardRef.current.offsetLeft,
-                                y: y - cardRef.current.offsetTop,
+                                y: y,
                             })
 
 

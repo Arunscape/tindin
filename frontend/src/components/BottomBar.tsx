@@ -1,74 +1,53 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
-import Fab from '@material-ui/core/Fab';
-import HomeIcon from '@material-ui/icons/Home';
+import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonBadge, IonRouterOutlet } from '@ionic/react';
+import { Route, Redirect } from 'react-router-dom'
 
-import {
-    ChatProcessing as ChatIcon,
-    Account as AccountIcon,
-} from 'mdi-material-ui';
 
 import { useHistory } from 'react-router';
 
 
-const useStyles = makeStyles(theme => ({
-    text: {
-        padding: theme.spacing(2, 2, 0),
-    },
-    paper: {
-        paddingBottom: 50,
-    },
-    list: {
-        marginBottom: theme.spacing(2),
-    },
-    subheader: {
-        backgroundColor: theme.palette.background.paper,
-    },
-    appBar: {
-        top: 'auto',
-        bottom: 0,
-        backgroundColor: '#EE357B',
-    },
-    grow: {
-        flexGrow: 1,
-    },
-    fabButton: {
-        position: 'absolute',
-        zIndex: 1,
-        top: -30,
-        left: 0,
-        right: 0,
-        margin: '0 auto',
-        backgroundColor: 'white',
-        color: '#EE357B',
-    },
-}));
-
 const BottomBar = () => {
-    const classes = useStyles();
     const history = useHistory();
 
     return (
-        <>
-            <AppBar position="fixed" color="primary" className={classes.appBar}>
-                <Toolbar>
-                    <div className={classes.grow} />
-                    <IconButton style={{ marginRight: '2em' }} edge="start" color="inherit" aria-label="open drawer" onClick={() => history.push('/chat')}>
-                        <ChatIcon />
-                    </IconButton>
-                    <Fab color="secondary" aria-label="add" className={classes.fabButton}>
-                        <HomeIcon />
-                    </Fab>
-                    <IconButton edge="end" color="inherit" onClick={() => history.push("/profile")}>
-                        <AccountIcon />
-                    </IconButton>
-                    <div className={classes.grow} />
-                </Toolbar>
-            </AppBar>
-        </>
+        <IonTabs>
+            <IonRouterOutlet>
+                <Redirect exact path="/tabs" to="/tabs/schedule" />
+                {/* 
+          Using the render method prop cuts down the number of renders your components will have due to route changes.
+          Use the component prop when your component depends on the RouterComponentProps passed in automatically.        
+        */}
+                <Route path="/tabs/schedule" render={() => <div>schedule</div>} exact={true} />
+                <Route path="/tabs/speakers" render={() => <div>speakers</div>} exact={true} />
+                <Route path="/tabs/speakers/:id" component={() => <div>speakers/id</div>} exact={true} />
+                <Route path="/tabs/schedule/:id" component={() => <div>schedule/id</div>} />
+                <Route path="/tabs/speakers/sessions/:id" component={() => <div>sessions/id</div>} />
+                <Route path="/tabs/map" render={() => <div>map</div>} exact={true} />
+                <Route path="/tabs/about" render={() => <div>about</div>} exact={true} />
+            </IonRouterOutlet>
+            <IonTabBar slot="bottom">
+                <IonTabButton tab="schedule">
+                    <IonIcon name="calendar" />
+                    <IonLabel>Schedule</IonLabel>
+                    <IonBadge>6</IonBadge>
+                </IonTabButton>
+
+                <IonTabButton tab="speakers">
+                    <IonIcon name="contacts" />
+                    <IonLabel>Speakers</IonLabel>
+                </IonTabButton>
+
+                <IonTabButton tab="map">
+                    <IonIcon name="map" />
+                    <IonLabel>Map</IonLabel>
+                </IonTabButton>
+
+                <IonTabButton tab="about">
+                    <IonIcon name="information-circle" />
+                    <IonLabel>About</IonLabel>
+                </IonTabButton>
+            </IonTabBar>
+        </IonTabs>
     );
 }
 
