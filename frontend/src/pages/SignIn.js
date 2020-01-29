@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styled from 'styled-components'
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Tindinlogo from '../assets/tindinlogo.svg';
@@ -48,7 +48,6 @@ box-shadow: 0 0.2rem 0.7rem 0 rgba(0,0,0,0.2), 0 0.075rem 0.95rem 0 rgba(0,0,0,0
 `
 
 const SignIn = () => {
-    const history = useHistory();
 
     return <Background>
         <Whitebox>
@@ -56,7 +55,9 @@ const SignIn = () => {
                 <CssBaseline />
                 <Title src={Tindinlogo} />
                 <Welcome>Welcome!</Welcome>
-                <Button onClick={() => history.push("/signin-email")}>Sign in</Button>
+                <Link to="/signin-email">
+                    <Button>Sign in</Button>
+                </Link>
             </Centering>
         </Whitebox>
     </Background>

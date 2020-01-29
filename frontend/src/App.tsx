@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react';
 import { IonReactRouter as Router } from '@ionic/react-router';
-import { Route } from 'react-router-dom'
 import useGlobalState from './useGlobalState';
 import '@ionic/react/css/core.css';
 // /* Basic CSS for apps built with Ionic */
@@ -20,6 +19,9 @@ import BottomBar from './components/BottomBar'
 import { IonRouterOutlet as Switch, IonApp } from '@ionic/react'
 
 
+import { Route, PrivateRoute } from './Route';
+
+
 
 const Main = React.lazy(() => import('./pages/Main'))
 const SignIn = React.lazy(() => import('./pages/SignIn'))
@@ -37,24 +39,24 @@ const App: React.FC = () => {
   const { user } = useGlobalState();
 
   return (
-    <IonApp>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Router basename="/">
-          <Switch>
-            <Route path="/" exact component={Main} />
-            <Route path="/signin" exact component={SignIn} />
-            <Route path="/signin-email" exact component={SignInEmail} />
-            <Route path="/signin-verify" exact component={SignInVerify} />
-            <Route path="/signup" exact component={SignUp} />
-            <Route path="/signup-bio" exact component={SignUpBio} />
-            <Route path="/signup-photos" exact component={SignUpPhotos} />
-            <Route path="/chat" exact component={Chat} />
-            <Route path="/profile" exact component={Profile} />
-          </Switch>
-          {user.tok && <BottomBar />}
-        </Router>
-      </Suspense >
-    </IonApp>
+    // <IonApp>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Router basename="/">
+        {/* <Switch> */}
+        <PrivateRoute path="/" exact component={Main} />
+        <Route path="/signin" exact component={SignIn} />
+        <Route path="/signin-email" exact component={SignInEmail} />
+        <Route path="/signin-verify" exact component={SignInVerify} />
+        <Route path="/signup" exact component={SignUp} />
+        <Route path="/signup-bio" exact component={SignUpBio} />
+        <Route path="/signup-photos" exact component={SignUpPhotos} />
+        <PrivateRoute path="/chat" exact component={Chat} />
+        <PrivateRoute path="/profile" exact component={Profile} />
+        {/* </Switch> */}
+        {user.tok && <BottomBar />}
+      </Router>
+    </Suspense >
+    // </IonApp>
   )
 }
 

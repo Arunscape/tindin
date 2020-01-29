@@ -66,10 +66,6 @@ const Main = () => {
 
     const [offset, setOffset] = useState({ x: null, y: null });
 
-    const cardRef = useRef(null);
-
-    const swipeAreaRef = useRef(null);
-
     const getNextProfile = async () => {
         const data = await fetch(CONFIG.API + '/next-profile',
             {
@@ -133,33 +129,29 @@ const Main = () => {
     return <IonContent>
 
         {user.tok && (
-            <SwipeArea ref={swipeAreaRef}>
+            <SwipeArea>
                 <AngleDisplay>{angle}</AngleDisplay>
                 {swipee ? (
                     <Card
-                        // className={classes.card}
-                        style={touchPos ? { top: touchPos.y, left: touchPos.x } : null}
-                        ref={cardRef}
+                        style={touchPos ? {
+                            top: touchPos.y,
+                            left: touchPos.x
+                        } : null}
                         onTouchStart={(e) => {
                             const x = e.touches[0].clientX;
                             const y = e.touches[0].clientY;
 
                             setOffset({
-                                x: x - cardRef.current.offsetLeft,
-                                y: y - cardRef.current.offsetTop,
+                                x: x,
+                                y: y
                             })
 
-
-                            setTouchStart({ x, y, offset });
+                            setTouchStart({ x, y });
                         }}
                         onTouchMove={(e) => {
 
                             const x = e.touches[0].clientX;
                             const y = e.touches[0].clientY;
-
-                            if (x < 0 || y < 0 || x > swipeAreaRef.current.clientWidth || y > swipeAreaRef.current.clientHeight) {
-                                return;
-                            }
 
                             setTouchPos({
                                 x: x - offset.x,
@@ -177,7 +169,6 @@ const Main = () => {
                         }}
                     >
                         <CardImage
-                            // className={classes.media}
                             src={swipee && swipee.photos && swipee.photos[0]}
                             title="Contemplative Reptile"
                         />
